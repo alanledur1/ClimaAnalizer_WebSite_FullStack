@@ -70,17 +70,21 @@ function ApiTemp({ onSelectData, isDark }) {
   };
 
   return (
-  <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        gap: '20px', 
-        padding: '20px', 
-        border: '1px solid #ccc', 
-        borderRadius: '5px',
-        backgroundColor: selectedTheme.text_secondary+20,
-        color: selectedTheme.text_primary+99
-      }}>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      gap: '20px', 
+      padding: '20px', 
+      border: selectedTheme.border_modals, 
+      borderRadius: '20px',
+      backgroundColor: selectedTheme.text_secondary+20,
+      boxShadow: selectedTheme.shadow,
+      color: selectedTheme.text_primary+99
+      }}
+  >
+        
+  
     <Typography variant="h6" component="h4">Visualizar intervalo de dados em modo texto</Typography>
     <Box>
       <TextField
@@ -93,17 +97,13 @@ function ApiTemp({ onSelectData, isDark }) {
           maxLength="8"
           InputLabelProps={{ 
             shrink: true,
-            style: { 
+            style: {  
+              width: '50%',
+              textAlign: 'center',
               color: selectedTheme.text_primary,
+              backgroundColor: selectedTheme.bgLight,
+              borderRadius: '7px'
             }
-          }}
-          
-          InputProps={{ 
-            style: { 
-              '::placeholder': {
-                color: selectedTheme.primary, // Defina a cor do placeholder aqui
-              }
-            },
           }}
           sx={{marginLeft: '4px'}}
         />
@@ -117,20 +117,16 @@ function ApiTemp({ onSelectData, isDark }) {
           maxLength="8"
           InputLabelProps={{ 
             shrink: true,
-            style: { 
+            style: {  
+              width: '50%',
+              textAlign: 'center',
               color: selectedTheme.text_primary,
+              backgroundColor: selectedTheme.bgLight,
+              borderRadius: '7px'
             }
-          }}
-          InputProps={{ 
-            style: { 
-              '::placeholder': {
-                color: 'red', // Defina a cor do placeholder aqui
-              }
-            },
           }}
           sx={{marginLeft: '4px'}}
         />
-
     </Box>
     <FormControl sx={{ minWidth: 200 }} size="small">
       <InputLabel id="demo-select-small-label" sx={{color: selectedTheme.text_primary}}>Opções</InputLabel>
@@ -140,6 +136,20 @@ function ApiTemp({ onSelectData, isDark }) {
         value={option}
         label="Opção"
         onChange={handleOptionChange}
+        variant="outlined"
+        fullWidth
+        MenuProps={{  
+          PaperProps: {
+            sx: {
+              backgroundColor: selectedTheme.card_light,
+              color: selectedTheme.text_primary,
+              borderRadius: '8px',
+              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+              padding: '8px',
+              fontFamily: 'Arial, sans-serif',
+            },
+          },
+        }}
       >
         <MenuItem disabled value="" >
             <em>Selecione as opções desejadas</em>

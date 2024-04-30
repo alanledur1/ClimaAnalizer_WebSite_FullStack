@@ -49,7 +49,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
         // Dividindo os dados em grupos de duas colunas
         splitDataIntoColumns(weatherData.dados.slice(startIndex, endIndex), 2).map((columnData, columnIndex) => (
-          <List key={columnIndex} sx={{ display: 'flex', marginBottom: '20px' }}>
+          <List key={columnIndex} sx={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-around' }}>
             {columnData.map((data, index) => (
               <Box
               key={index}
@@ -95,7 +95,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
                 <>
                   <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Umidade: 💧</Typography>
                   <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.umidade}</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Velocidade do Vento: 🌬️</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Vel. do Vento: 🌬️</Typography>
                   <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.velocidade_vento}</Typography>
                 </>
               )}  

@@ -10,9 +10,10 @@ export const darkTheme = {
   white: "#FFFFFF",
   black: "#000000",
   nav: "#292e42",
-  shadow: "15px 15px 30px rgb(25, 25, 25), -15px -15px 30px rgb(60, 60, 60)",
+  shadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
   border: "#292929",
-  BackgroundDados: 'linear-gradient(170deg, rgba(58, 56, 56, 0.623) 0%, rgb(31, 31, 31) 100%)'
+  BackgroundDados: 'linear-gradient(170deg, rgba(58, 56, 56, 0.623) 0%, rgb(31, 31, 31) 100%)',
+  border_modals: '2px solid #999'
 };
 export const lightTheme = {
   bg: "#8DE8F2",
@@ -24,7 +25,8 @@ export const lightTheme = {
   card_light: "#F2E0D0",
   button: "#5c5b5b",
   nav: "hsla(191, 95%, 62%, 0.2)",
-  shadow: "15px 15px 30px #bebebe, -15px -15px 30px #ffffff",
+  shadow: "5px 5px 10px #888888",
   border: "white",
-  BackgroundDados: 'linear-gradient(170deg, rgba(255, 255, 255, 0.8) 0%, rgb(240, 240, 240) 100%)'
+  BackgroundDados: 'linear-gradient(170deg, rgba(255, 255, 255, 0.8) 0%, rgb(240, 240, 240) 100%)',
+  border_modals: '2px solid #ddd'
 };
