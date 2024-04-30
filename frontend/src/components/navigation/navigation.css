@@ -1,0 +1,9 @@
+.dark-mode {
+  background-color: black; /* Mudar a cor de fundo da página para preto */
+  color: white; /* Mudar a cor do texto para branco */
+  /* Outros estilos para a página em modo escuro, se necessário */
+}
+
+strong {
+  color: rgb(213, 50, 50);
+}
