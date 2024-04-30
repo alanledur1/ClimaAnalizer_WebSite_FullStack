@@ -71,7 +71,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
                   backgroundColor: selectedTheme.card + 99,
                   color: selectedTheme.text_primary,
                   cursor: 'pointer',
-                  transform: 'scale(1.05)', // Aumenta ligeiramente o tamanho do elemento ao passar o mouse sobre ele
+                  transform: 'scale(1.02)', // Aumenta ligeiramente o tamanho do elemento ao passar o mouse sobre ele
                 },
               }}
               >

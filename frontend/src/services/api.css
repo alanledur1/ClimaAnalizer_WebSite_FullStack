@@ -1,0 +1,5 @@
+input::placeholder {
+  font-weight: 400;
+  opacity: 0.2;
+  color: rgb(95, 132, 255) !important; /* Defina a cor do placeholder aqui */
+}

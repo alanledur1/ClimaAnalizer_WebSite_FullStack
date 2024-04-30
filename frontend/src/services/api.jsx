@@ -5,13 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { darkTheme, lightTheme } from '../utils/Themes.js';
-import { Typography, TextField, Button, Box, colors } from "@mui/material";
+import { Typography, TextField, Button, Box } from "@mui/material";
+import './api.css'
 
-function ApiTemp({ onSelectData, isDark, onCloseModal }) {
+function ApiTemp({ onSelectData, isDark }) {
   const selectedTheme = isDark ? darkTheme : lightTheme;
   const [option, setOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  
 
   const handleStartDateChange = (event) => {
     let inputDate = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
@@ -67,7 +69,6 @@ function ApiTemp({ onSelectData, isDark, onCloseModal }) {
     }
   };
 
-
   return (
   <div style={{ 
         display: 'flex', 
@@ -94,14 +95,17 @@ function ApiTemp({ onSelectData, isDark, onCloseModal }) {
             shrink: true,
             style: { 
               color: selectedTheme.text_primary,
-             }
-          }}
-          sx={{
-            marginRight: '4px',
-            '&::placeholder': {
-              color: 'blue'
             }
-          }}    
+          }}
+          
+          InputProps={{ 
+            style: { 
+              '::placeholder': {
+                color: selectedTheme.primary, // Defina a cor do placeholder aqui
+              }
+            },
+          }}
+          sx={{marginLeft: '4px'}}
         />
         <TextField
           type="text" 
@@ -115,14 +119,21 @@ function ApiTemp({ onSelectData, isDark, onCloseModal }) {
             shrink: true,
             style: { 
               color: selectedTheme.text_primary,
-              
-             }
+            }
+          }}
+          InputProps={{ 
+            style: { 
+              '::placeholder': {
+                color: 'red', // Defina a cor do placeholder aqui
+              }
+            },
           }}
           sx={{marginLeft: '4px'}}
         />
+
     </Box>
     <FormControl sx={{ minWidth: 200 }} size="small">
-      <InputLabel id="demo-select-small-label">Opções</InputLabel>
+      <InputLabel id="demo-select-small-label" sx={{color: selectedTheme.text_primary}}>Opções</InputLabel>
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
@@ -130,7 +141,7 @@ function ApiTemp({ onSelectData, isDark, onCloseModal }) {
         label="Opção"
         onChange={handleOptionChange}
       >
-        <MenuItem disabled value="">
+        <MenuItem disabled value="" >
             <em>Selecione as opções desejadas</em>
           </MenuItem>
         <MenuItem value="1">Todos os dados</MenuItem>
