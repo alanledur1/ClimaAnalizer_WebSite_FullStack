@@ -49,23 +49,23 @@ function ApiTempChuva({ onSelectData, isDark }) {
     try {
       switch (option) {
         case '1':
-          const responseAll = await axios.post('/api/visualizar-dados', {
-            tipo_dados: 'mes_dia_menos_chuvoso',
+          const responseAll = await axios.post('/api/mes-dia-chuvoso', {
+            tipo_dados: 'mes_e_dia_mais_chuvoso',
             data_inicial: startDate,
             data_final: endDate
           });
           onSelectData(responseAll.data);
           break;
         case '2':
-          const responsePrecip = await axios.post('/api/visualizar-dados', {
-            tipo_dados:  'mes_dia_mais_chuvoso',
+          const responsePrecip = await axios.post('/api/mes-dia-chuvoso', {
+            tipo_dados:  'mes_e_dia_menos_chuvoso',
             data_inicial: startDate,
             data_final: endDate
           });
           onSelectData(responsePrecip.data);
           break;
         case '3': 
-          const responseTemp = await axios.post('/api/visualizar-dados', {
+          const responseTemp = await axios.post('/api/mes-dia-chuvoso', {
             tipo_dados: 'mes_dias_mais_seco',
             data_inicial: startDate,
             data_final: endDate
@@ -73,7 +73,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
           onSelectData(responseTemp.data);
           break;
         case '4':
-          const responseHumidityVel = await axios.post('/api/visualizar-dados', {
+          const responseHumidityVel = await axios.post('/api/mes-dia-chuvoso', {
             tipo_dados: 'ano_mais_E_menos_chuvoso',
             data_inicial: startDate,
             data_final: endDate

@@ -17,15 +17,64 @@ def ler_aquivoMet_csv():
             dados.append(dict(linha))
     return dados
 
-meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', # Lista com os nomes dos meses.
-          'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-
-def validar_data(data): # Validar a entrada das datas.
+# Função para validar o formato da data
+def validar_data(data): 
     try:
         datetime.strptime(data, "%d/%m/%Y")
         return True
     except ValueError:
         return False
+    
+
+# Função para calcular a precipitação do mês 
+def calcular_precipitação_por_mês_e_dia(dados, data_inicial, data_final): 
+    precipitacao_por_mes = {}
+    precipitacao_por_dia_do_mes = {}
+
+
+    for dado in dados:
+        data_dado = datetime.strptime(dado['data'], '%d/%m/%Y')
+
+        if data_dado >= datetime.strptime(data_inicial, '%d/%m/%Y') and \
+           data_dado <= datetime.strptime(data_final, '%d/%m/%Y'):
+            
+            dia_do_mes = data_dado.day
+
+            if dia_do_mes in precipitacao_por_dia_do_mes:
+                precipitacao_por_dia_do_mes[dia_do_mes] += float(dado['precip'])
+            else:
+                precipitacao_por_dia_do_mes[dia_do_mes] = float(dado['precip'])
+
+            mes_do_ano = data_dado.strftime('%m/%Y')
+
+            if mes_do_ano in precipitacao_por_mes:
+                precipitacao_por_mes[mes_do_ano] += float(dado['precip'])
+            else:    
+                precipitacao_por_mes[mes_do_ano] = float(dado['precip'])
+
+    return precipitacao_por_dia_do_mes, precipitacao_por_mes
+
+
+# Função para calcular o mês e o dia mais chuvoso com base em todos os dados
+def calcular_mes_dia_mais_chuvoso(dados, data_inicial, data_final):
+    precipitacao_por_mes, precipitacao_por_dia_do_mes = calcular_precipitação_por_mês_e_dia(dados, data_inicial, data_final)
+
+    dia_mais_chuvoso = max(precipitacao_por_dia_do_mes, key=precipitacao_por_dia_do_mes.get)
+    mes_mais_chuvoso = max(precipitacao_por_mes, key=precipitacao_por_mes.get)
+    return dia_mais_chuvoso, mes_mais_chuvoso
+
+# Função para calcular o mês e o dia menos chuvoso com base em todos os dados
+def calcular_mes_dia_menos_chuvoso(dados, data_inicial, data_final):
+    precipitacao_por_mes, precipitacao_por_dia_do_mes = calcular_precipitação_por_mês_e_dia(dados, data_inicial, data_final)
+
+    dia_menos_chuvoso = min(precipitacao_por_dia_do_mes, key=precipitacao_por_dia_do_mes.get)
+    mes_menos_chuvoso = min(precipitacao_por_mes, key=precipitacao_por_mes.get)
+    return dia_menos_chuvoso, mes_menos_chuvoso
+
+# Função para gerar o gráfico de barras das médias de temperatura mínima de um mês
+def gerar_grafico_temperatura_minima(mes):
+    # Implementação da função aqui
+    pass
 
 # Endpoint para visualizar intervalo de dados em modo texto
 @app.route('/api/visualizar-dados', methods=['POST'])
@@ -82,48 +131,62 @@ def visualizar_dados():
     return jsonify({'message': 'Sucesso', 'dados': response_data}), 200
 
 
-# Endpoint para obter o mês menos chuvoso
-@app.route('/api/mes-menos-chuvoso', methods=['POST'])
-def mes_menos_chuvoso():
+# Endpoint para obter o mês/dia menos/mais chuvoso
+@app.route('/api/mes-dia-chuvoso', methods=['POST'])
+def mes_menos_e_mais_chuvoso():
+    # Extrair os dados da requisição JSON
     data = request.json
     tipo_dados = request.json['tipo_dados']
     data_inicial = data.get('data_inicial')
     data_final = data.get('data_final')
 
-
-    if tipo_dados not in ['todos_os_dados', 'mes_mais_chuvoso', 'mes_menos_chuvoso','dia_mais_chuvoso_no_ano','dia_mais_chuvoso_no_mes','dia_menos_chuvoso_no_mes','dia_menos_chuvoso_no_ano']:
-        return jsonify({'error': 'Tipo de dados inválido. Escolha um dos seguintes tipos: todos os dados,'}), 400
-
-    if not all([data_inicial, data_final]) or not all(map(validar_data, [data_inicial, data_final])):
-        return jsonify({'error': 'Datas inválidas. Certifique-se de elas estão no formato DD/MM/AAAA.'}), 400     
-    
     # Ler os dados do arquivo CSV
-    
     dados = ler_aquivoMet_csv()
 
-    # Dicionário para armazenar a precipitação total para cada mês e dia.
-    precipitacao_por_mes = {}
-    precipitacao_por_dia = {}
-    
+    # Lógica de filtragem de dados e geração de resposta
+    response_data = []
+
+
+    # Verificar a validade dos dados
+    if tipo_dados not in ['todos_os_dados', 'mes_dia_menos_chuvoso', 'mes_dia_mais_chuvoso']:
+        return jsonify({'error': 'Tipo de dados inválido. Escolha um dos seguintes tipos: todos os dados, mes e o dia mais chuvoso, mes e o dia menos chuvoso.'}), 400
+
+    if not all([data_inicial, data_final]) or not all(map(validar_data, [data_inicial, data_final])):
+        return jsonify({'error': 'Datas inválidas. Certifique-se de elas estão no formato DD/MM/AAAA.'}), 400 
+
+
+
+
+    # Filtrar os dados pelo intervalo de datas especificado
+    dados_filtrados = []
     for dado in dados:
-        # Extrai o mês e o ano da data.
-        mes_ano = dado['data'][3:]
+        data_dado = datetime.strptime(dado['data'], '%d/%m/%Y')
+        if data_dado >= datetime.strptime(data_inicial, '%d/%m/%Y') and data_dado <= datetime.strptime(data_final, '%d/%m/%Y'):
+            dados_filtrados.append(dado)
 
-        # Adiciona a precipitação ao total para o mês.
-        if mes_ano in precipitacao_por_mes:
-            precipitacao_por_mes[mes_ano] += float(dado['precip'])
-        else:
-            precipitacao_por_mes[mes_ano] = float(dado['precip'])
+    dia_mais_chuvoso, mes_mais_chuvoso = calcular_mes_dia_mais_chuvoso(dados_filtrados, data_inicial, data_final)
+    dia_menos_chuvoso, mes_menos_chuvoso = calcular_mes_dia_menos_chuvoso(dados_filtrados, data_inicial, data_final)
 
-    # Encontra o mês com a menor precipitação.
-    mes_menos_chuvoso = min(precipitacao_por_mes, key=precipitacao_por_mes.get)
+    # Calcular o mês e o dia mais/menos chuvoso com base nos dados filtrados
+    if tipo_dados == 'todos_os_dados':
+        response_data.append({
+            'mes_mais_chuvoso': mes_mais_chuvoso, 
+            'dia_mais_chuvoso': dia_mais_chuvoso,
+            'mes_menos_chuvoso': mes_menos_chuvoso, 
+            'dia_menos_chuvoso': dia_menos_chuvoso
+            })
+    elif tipo_dados == 'mes_dia_menos_chuvoso':
+        response_data.append({
+            'mes_menos_chuvoso': mes_menos_chuvoso, 
+            'dia_menos_chuvoso': dia_menos_chuvoso 
+        })
+    elif tipo_dados == 'mes_dia_mais_chuvoso':
+        response_data.append({
+            'mes_mais_chuvoso': mes_mais_chuvoso, 
+            'dia_mais_chuvoso': dia_mais_chuvoso
+        })
 
-    # Constrói a resposta JSON
-    resposta = {
-        'mensagem': f'O mês/ano menos chuvoso foi {mes_menos_chuvoso} com {precipitacao_por_mes[mes_menos_chuvoso]} mm de precipitação.'
-    }
-
-    return jsonify(resposta) 
+    return jsonify({'message': 'Sucesso', 'dados': response_data}), 200
 
 
 # Endpoint para calcular a média da temperatura mínima de um determinado mês nos últimos 11 anos
@@ -224,7 +287,7 @@ def calcular_e_graficar_temperatura_minima():
     return jsonify({'grafico': caminho_do_arquivo})
 
 
-dados_climaticos = ler_aquivoMet_csv() # Carregar os dados do arquivo CSV.
+
 
 if __name__ == '__main__':
     app.run(debug=True)
