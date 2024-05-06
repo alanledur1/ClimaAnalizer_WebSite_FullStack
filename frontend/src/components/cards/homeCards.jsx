@@ -106,7 +106,7 @@ export const HomeCards = ({ onSelectData, isDark }) => {
   };
   const handleSelectData = (selectedData) => {
     onSelectData(selectedData);
-    handleCloseModal1(); // Ou handleCloseModal2(), dependendo de qual modal você está usando
+    handleCloseModal1();
   };
 
   return (
@@ -129,8 +129,8 @@ export const HomeCards = ({ onSelectData, isDark }) => {
               width: "90%",
               maxWidth: 900,
               bgcolor: selectedTheme.bgLight,
-              borderRadius: 8,         // Bordas arredondadas com raio de 8 pixels
-              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Sombra suave
+              borderRadius: 8,         
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
               p: 4,
             }}
           >
@@ -174,16 +174,22 @@ export const HomeCards = ({ onSelectData, isDark }) => {
               transform: "translate(-50%, -50%)",
               width: "90%",
               maxWidth: 900,
-              bgcolor: "background.paper",
-              borderRadius: 8,         // Bordas arredondadas com raio de 8 pixels
-              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Sombra suave
+              bgcolor: selectedTheme.bgLight,
+              borderRadius: 8,         
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
               p: 4,
             }}
           >
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" gutterBottom sx={{color: selectedTheme.text_primary}}>
               Dados Meteorológicos
             </Typography>
-            <ApiTempChuva onSelectData={handleSelectData} />
+            <ApiTempChuva 
+              onSelectData={handleSelectData} 
+              isDark={isDark} 
+              darkTheme={darkTheme} 
+              lightTheme={lightTheme} 
+              theme={isDark ? darkTheme : lightTheme}
+              />
             <Box 
               sx={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}
             >
