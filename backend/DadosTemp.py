@@ -17,6 +17,9 @@ def ler_aquivoMet_csv():
             dados.append(dict(linha))
     return dados
 
+meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', # Lista com os nomes dos meses.
+          'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
 # Função para validar o formato da data
 def validar_data(data): 
     try:
@@ -24,7 +27,7 @@ def validar_data(data):
         return True
     except ValueError:
         return False
-    
+
 
 # Função para calcular a precipitação do mês 
 def calcular_precipitação_por_mês_e_dia(dados, data_inicial, data_final): 
@@ -129,8 +132,6 @@ def visualizar_dados():
                 print(response_data)  # Adicione esta linha para verificar os dados antes de enviá-los
 
     return jsonify({'message': 'Sucesso', 'dados': response_data}), 200
-
-
 # Endpoint para obter o mês/dia menos/mais chuvoso
 @app.route('/api/mes-dia-chuvoso', methods=['POST'])
 def mes_menos_e_mais_chuvoso():
@@ -139,6 +140,10 @@ def mes_menos_e_mais_chuvoso():
     tipo_dados = request.json['tipo_dados']
     data_inicial = data.get('data_inicial')
     data_final = data.get('data_final')
+    ano_inicial = data.get('ano_inicial')
+    ano_final = data.get('ano_final')
+    mes = data.get('mes')
+    intervalo_tempo = data.get('intervalo_tempo')
 
     # Ler os dados do arquivo CSV
     dados = ler_aquivoMet_csv()
@@ -148,46 +153,96 @@ def mes_menos_e_mais_chuvoso():
 
 
     # Verificar a validade dos dados
-    if tipo_dados not in ['todos_os_dados', 'mes_dia_menos_chuvoso', 'mes_dia_mais_chuvoso']:
-        return jsonify({'error': 'Tipo de dados inválido. Escolha um dos seguintes tipos: todos os dados, mes e o dia mais chuvoso, mes e o dia menos chuvoso.'}), 400
+    if intervalo_tempo not in ['um_ano', 'varios_anos']:
+        return jsonify({'error': 'Intervalo de tempo inválido. Escolha um dos seguintes intervalos: todos os dados, um ano, varios_anos'}), 400
 
-    if not all([data_inicial, data_final]) or not all(map(validar_data, [data_inicial, data_final])):
-        return jsonify({'error': 'Datas inválidas. Certifique-se de elas estão no formato DD/MM/AAAA.'}), 400 
+    if tipo_dados not in ['todos_os_dados', 'precipitacao', 'temperatura', 'umidade_velocidade']:
+        return jsonify({'error': 'Tipo de dados inválido. Escolha um dos seguintes tipos: todos os dados, precipitacao, temperatura, umidade e velocidade do vento.'}), 400
 
-
+    if intervalo_tempo == 'um_ano':
+        if not all([data_inicial, data_final]) or not all(map(validar_data, [data_inicial, data_final])):
+            return jsonify({'error': 'Datas inválidas. Certifique-se de elas estão no formato DD/MM/AAAA.'}), 400 
 
 
     # Filtrar os dados pelo intervalo de datas especificado
     dados_filtrados = []
     for dado in dados:
         data_dado = datetime.strptime(dado['data'], '%d/%m/%Y')
-        if data_dado >= datetime.strptime(data_inicial, '%d/%m/%Y') and data_dado <= datetime.strptime(data_final, '%d/%m/%Y'):
-            dados_filtrados.append(dado)
+        if intervalo_tempo == 'um_ano':
+            if data_dado >= datetime.strptime(data_inicial, '%d/%m/%Y') and\
+            data_dado <= datetime.strptime(data_final, '%d/%m/%Y'):
+                dados_filtrados.append(dado)
+        elif intervalo_tempo == 'varios_anos':
+            if data_dado.year >= ano_inicial and data_dado.year <= ano_final and data_dado.month == mes:
+                dados_filtrados.append(dado)   
 
-    dia_mais_chuvoso, mes_mais_chuvoso = calcular_mes_dia_mais_chuvoso(dados_filtrados, data_inicial, data_final)
-    dia_menos_chuvoso, mes_menos_chuvoso = calcular_mes_dia_menos_chuvoso(dados_filtrados, data_inicial, data_final)
 
-    # Calcular o mês e o dia mais/menos chuvoso com base nos dados filtrados
-    if tipo_dados == 'todos_os_dados':
-        response_data.append({
-            'mes_mais_chuvoso': mes_mais_chuvoso, 
-            'dia_mais_chuvoso': dia_mais_chuvoso,
-            'mes_menos_chuvoso': mes_menos_chuvoso, 
-            'dia_menos_chuvoso': dia_menos_chuvoso
+    # Determinar se é para calcular para um ano ou para um mês específico em vários anos
+    if intervalo_tempo == 'um_ano':
+        dia_mais_chuvoso, mes_mais_chuvoso, data_mais_chuvoso, precipitacao_dia_mais, precipitacao_mes_mais = calcular_mes_dia_mais_chuvoso(dados_filtrados, data_inicial, data_final)
+        dia_menos_chuvoso, mes_menos_chuvoso, data_menos_chuvoso, precipitacao_dia_menos, precipitacao_mes_menos = calcular_mes_dia_menos_chuvoso(dados_filtrados, data_inicial, data_final)
+        if tipo_dados == 'todos_os_dados':
+            response_data.append({
+                'mes_mais_chuvoso': mes_mais_chuvoso, 
+                'dia_mais_chuvoso': dia_mais_chuvoso,
+                'precipitacao_para_o_dia': str(round(precipitacao_dia_mais, 2)) + 'mm',
+                'precipitacao_para_o_mes': str(round(precipitacao_mes_mais, 2)) + 'mm',
+                'data_completa_mais_chuvoso': data_mais_chuvoso
             })
-    elif tipo_dados == 'mes_dia_menos_chuvoso':
-        response_data.append({
-            'mes_menos_chuvoso': mes_menos_chuvoso, 
-            'dia_menos_chuvoso': dia_menos_chuvoso 
-        })
-    elif tipo_dados == 'mes_dia_mais_chuvoso':
-        response_data.append({
-            'mes_mais_chuvoso': mes_mais_chuvoso, 
-            'dia_mais_chuvoso': dia_mais_chuvoso
-        })
+            response_data.append({
+                'mes_menos_chuvoso': mes_menos_chuvoso, 
+                'dia_menos_chuvoso': dia_menos_chuvoso,
+                'precipitacao_para_o_dia': str(round(precipitacao_dia_menos, 2)) + 'mm',
+                'precipitacao_para_o_mes': str(round(precipitacao_mes_menos, 2)) + 'mm',
+                'data_completa_menos_chuvoso': data_menos_chuvoso
+            })
+        elif tipo_dados == 'mes_dia_mais_chuvoso':
+            response_data.append({
+                'mes_mais_chuvoso': mes_mais_chuvoso, 
+                'dia_mais_chuvoso': dia_mais_chuvoso,
+                'precipitacao_para_o_dia': str(round(precipitacao_dia_mais, 2)) + 'mm',
+                'precipitacao_para_o_mes': str(round(precipitacao_mes_mais, 2)) + 'mm',
+                'data_completa_mais_chuvoso': data_mais_chuvoso
+            })
+        elif tipo_dados == 'mes_dia_menos_chuvoso':
+            response_data.append({
+                'mes_menos_chuvoso': mes_menos_chuvoso, 
+                'dia_menos_chuvoso': dia_menos_chuvoso,
+                'precipitacao_para_o_dia': str(round(precipitacao_dia_menos, 2)) + 'mm',
+                'precipitacao_para_o_mes': str(round(precipitacao_mes_menos, 2)) + 'mm',
+                'data_completa_menos_chuvoso': data_menos_chuvoso
+            })
+
+    elif intervalo_tempo == 'varios_anos':   # Se os dados abrangem vários anos
+        # Dicionário para armazenar a precipitação para cada ano.
+        precipitacao_mes_escolhido_por_ano = {}
+
+        for dado in dados:
+            # Extrai o ano e o mês da data.
+            ano = int(dado['data'][6:])
+            precipitacao = float(dado['precip'])
+            data_dado = datetime.strptime(dado['data'], '%d/%m/%Y') 
+
+            # Se o mês do dado é o mês escolhido, adiciona a precipitação ao total para aquele ano.
+            if ano >= int(ano_inicial) and ano <= int(ano_final) and data_dado.month == mes:
+                    if ano in precipitacao_mes_escolhido_por_ano:
+                        precipitacao_mes_escolhido_por_ano[ano] += precipitacao
+                    else:
+                        precipitacao_mes_escolhido_por_ano[ano] = precipitacao
+
+        # Converter o número do mês para nome do mês.
+        nome_mes = meses[mes - 1]  # Subtrai 1 porque os índices da lista começam em 0.
+
+        # Construir a resposta JSON com as médias
+        if tipo_dados == 'todos_os_dados':
+            response_data = {
+                'precipitacao_mes_escolhido_por_ano': {f"{nome_mes}/{ano}": precipitacao for ano, precipitacao in precipitacao_mes_escolhido_por_ano.items()}
+            }
+
+        
+
 
     return jsonify({'message': 'Sucesso', 'dados': response_data}), 200
-
 
 # Endpoint para calcular a média da temperatura mínima de um determinado mês nos últimos 11 anos
 @app.route('/api/media-temperatura-minima', methods=['POST'])
