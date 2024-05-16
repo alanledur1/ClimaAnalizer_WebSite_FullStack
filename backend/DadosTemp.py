@@ -30,49 +30,85 @@ def validar_data(data):
 
 
 # Função para calcular a precipitação do mês 
-def calcular_precipitação_por_mês_e_dia(dados, data_inicial, data_final): 
-    precipitacao_por_mes = {}
-    precipitacao_por_dia_do_mes = {}
-
+def calcular_precipitação_por_mes_e_dia(dados, data_inicial, data_final):
+    precipitacao_por_mes_ano = {}
 
     for dado in dados:
         data_dado = datetime.strptime(dado['data'], '%d/%m/%Y')
+        ano = data_dado.year
+        mes_do_ano = data_dado.month
+        dia_do_mes = data_dado.day
 
         if data_dado >= datetime.strptime(data_inicial, '%d/%m/%Y') and \
            data_dado <= datetime.strptime(data_final, '%d/%m/%Y'):
-            
-            dia_do_mes = data_dado.day
 
-            if dia_do_mes in precipitacao_por_dia_do_mes:
-                precipitacao_por_dia_do_mes[dia_do_mes] += float(dado['precip'])
-            else:
-                precipitacao_por_dia_do_mes[dia_do_mes] = float(dado['precip'])
+            if ano not in precipitacao_por_mes_ano:
+                precipitacao_por_mes_ano[ano] = {}
 
-            mes_do_ano = data_dado.strftime('%m/%Y')
+            if mes_do_ano not in precipitacao_por_mes_ano[ano]:
+                precipitacao_por_mes_ano[ano][mes_do_ano] = {}
 
-            if mes_do_ano in precipitacao_por_mes:
-                precipitacao_por_mes[mes_do_ano] += float(dado['precip'])
-            else:    
-                precipitacao_por_mes[mes_do_ano] = float(dado['precip'])
+            if dia_do_mes not in precipitacao_por_mes_ano[ano][mes_do_ano]:
+                precipitacao_por_mes_ano[ano][mes_do_ano][dia_do_mes] = 0 
 
-    return precipitacao_por_dia_do_mes, precipitacao_por_mes
+            precipitacao_por_mes_ano[ano][mes_do_ano][dia_do_mes] += float(dado['precip'])
+    
+    return precipitacao_por_mes_ano
 
-
-# Função para calcular o mês e o dia mais chuvoso com base em todos os dados
+# Função para calcular o mês e o dia mais chuvoso com base nos dados filtrados
 def calcular_mes_dia_mais_chuvoso(dados, data_inicial, data_final):
-    precipitacao_por_mes, precipitacao_por_dia_do_mes = calcular_precipitação_por_mês_e_dia(dados, data_inicial, data_final)
+    precipitacao_por_mes_ano = calcular_precipitação_por_mes_e_dia(dados, data_inicial, data_final)
 
-    dia_mais_chuvoso = max(precipitacao_por_dia_do_mes, key=precipitacao_por_dia_do_mes.get)
-    mes_mais_chuvoso = max(precipitacao_por_mes, key=precipitacao_por_mes.get)
-    return dia_mais_chuvoso, mes_mais_chuvoso
+    max_precipitacao = 0
+    dia_mais_chuvoso = None
+    mes_mais_chuvoso = None
+    data_mais_chuvoso = None
+    precipitacao_dia_mais = None
+    precipitacao_mes_mais = None
 
-# Função para calcular o mês e o dia menos chuvoso com base em todos os dados
+    for ano, meses in precipitacao_por_mes_ano.items():
+        for mes, dias in meses.items():
+            for dia, precipitacao in dias.items():
+                if precipitacao > max_precipitacao:
+                    max_precipitacao = precipitacao
+                    dia_mais_chuvoso = dia
+                    mes_mais_chuvoso = mes
+                    precipitacao_dia_mais = precipitacao
+
+    # Agora, fora do loop, obtemos a data correspondente ao dia mais chuvoso
+    data_mais_chuvoso = datetime.strptime(f"{dia_mais_chuvoso}/{mes_mais_chuvoso}/{data_final[-4:]}", "%d/%m/%Y").strftime("%d/%m/%Y")
+    precipitacao_mes_mais = sum(precipitacao_por_mes_ano[ano][mes_mais_chuvoso].values())
+
+    return dia_mais_chuvoso, mes_mais_chuvoso, data_mais_chuvoso, precipitacao_dia_mais, precipitacao_mes_mais
+
+
+# Função para calcular o mês e o dia menos chuvoso com base nos dados filtrados
 def calcular_mes_dia_menos_chuvoso(dados, data_inicial, data_final):
-    precipitacao_por_mes, precipitacao_por_dia_do_mes = calcular_precipitação_por_mês_e_dia(dados, data_inicial, data_final)
+    precipitacao_por_mes_ano = calcular_precipitação_por_mes_e_dia(dados, data_inicial, data_final)
+    
+    min_precipitacao = float('inf')
+    dia_menos_chuvoso = None
+    mes_menos_chuvoso = None
+    data_menos_chuvoso = None
+    precipitacao_dia_menos = None
+    precipitacao_mes_menos = None
 
-    dia_menos_chuvoso = min(precipitacao_por_dia_do_mes, key=precipitacao_por_dia_do_mes.get)
-    mes_menos_chuvoso = min(precipitacao_por_mes, key=precipitacao_por_mes.get)
-    return dia_menos_chuvoso, mes_menos_chuvoso
+    for ano, meses in precipitacao_por_mes_ano.items():
+        for mes, dias in meses.items():
+            for dia, precipitacao in dias.items():
+                if precipitacao < min_precipitacao:
+                    min_precipitacao = precipitacao
+                    dia_menos_chuvoso = dia
+                    mes_menos_chuvoso = mes
+                    precipitacao_dia_menos = precipitacao
+
+    data_menos_chuvoso = datetime.strptime(f"{dia_menos_chuvoso}/{mes_menos_chuvoso}/{data_final[-4:]}", "%d/%m/%Y").strftime("%d/%m/%Y")
+    precipitacao_mes_menos = sum(precipitacao_por_mes_ano[ano][mes_menos_chuvoso].values())
+
+    return dia_menos_chuvoso, mes_menos_chuvoso, data_menos_chuvoso, precipitacao_dia_menos, precipitacao_mes_menos
+
+
+
 
 # Função para gerar o gráfico de barras das médias de temperatura mínima de um mês
 def gerar_grafico_temperatura_minima(mes):
@@ -104,32 +140,36 @@ def visualizar_dados():
         data_dado = datetime.strptime(dado['data'], '%d/%m/%Y')
         if data_dado >= datetime.strptime(data_inicial, '%d/%m/%Y') and data_dado <= datetime.strptime(data_final, '%d/%m/%Y'):
             if tipo_dados == 'todos_os_dados':
-                response_data.append({
-                    'data' : dado['data'],
-                    'precipitacao' : str(dado['precip']) + 'mm',
-                    'temperatura_maxima' : str(dado['maxima']) + '°C',
-                    'temperatura_minima' : str(dado['minima']) + '°C',
-                    'umidade' : str(dado['um_relativa']) + '%',
-                    'velocidade_vento' : str(round(float(dado['vel_vento']), 2)) + ' m/s'
-                })
-            elif tipo_dados == 'precipitacao':
-                response_data.append({
-                    'data': dado['data'],
-                    'precipitacao' : str(dado['precip']) + 'mm'
-                })
-            elif tipo_dados == 'temperatura':
-                response_data.append({
-                    'data' : dado['data'],
-                    'temperatura_maxima' : dado['maxima'] + '°C',
-                    'temperatura_minima' : dado['minima'] + '°C'
-                })
-            elif tipo_dados == 'umidade_velocidade':
-                response_data.append({
-                        'data' : dado['data'],
-                        'umidade' : str(dado['um_relativa']) + '%',
-                        'velocidade_vento' : str(round(float(dado['vel_vento']), 2)) + ' m/s'
+                if dado['precip'] != 'null' and dado['maxima'] != 'null' and dado['minima'] != 'null' and dado['um_relativa'] != 'null' and dado['vel_vento'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'precipitacao': str(dado['precip']) + 'mm',
+                        'temperatura_maxima': str(dado['maxima']) + '°C',
+                        'temperatura_minima': str(dado['minima']) + '°C',
+                        'umidade': str(dado['um_relativa']) + '%',
+                        'velocidade_vento': str(round(float(dado['vel_vento']), 2)) + ' m/s'
                     })
-                print(response_data)  # Adicione esta linha para verificar os dados antes de enviá-los
+            elif tipo_dados == 'precipitacao':
+                if dado['precip'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'precipitacao': str(dado['precip']) + 'mm'
+                    })
+            elif tipo_dados == 'temperatura':
+                if dado['maxima'] != 'null' and dado['minima'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'temperatura_maxima': dado['maxima'] + '°C',
+                        'temperatura_minima': dado['minima'] + '°C'
+                    })
+            elif tipo_dados == 'umidade_velocidade':
+                if dado['um_relativa'] != 'null' and dado['vel_vento'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'umidade': str(dado['um_relativa']) + '%',
+                        'velocidade_vento': str(round(float(dado['vel_vento']), 2)) + ' m/s'
+                    })
+                    print(response_data)  # Adicione esta linha para verificar os dados antes de enviá-los
 
     return jsonify({'message': 'Sucesso', 'dados': response_data}), 200
 # Endpoint para obter o mês/dia menos/mais chuvoso
@@ -174,7 +214,7 @@ def mes_menos_e_mais_chuvoso():
                 dados_filtrados.append(dado)
         elif intervalo_tempo == 'varios_anos':
             if data_dado.year >= ano_inicial and data_dado.year <= ano_final and data_dado.month == mes:
-                dados_filtrados.append(dado)   
+                dados_filtrados.append(dado)    
 
 
     # Determinar se é para calcular para um ano ou para um mês específico em vários anos
@@ -218,17 +258,17 @@ def mes_menos_e_mais_chuvoso():
         precipitacao_mes_escolhido_por_ano = {}
 
         for dado in dados:
-            # Extrai o ano e o mês da data.
+            # Extrair o ano e o mês da data.
             ano = int(dado['data'][6:])
             precipitacao = float(dado['precip'])
-            data_dado = datetime.strptime(dado['data'], '%d/%m/%Y') 
+            data_dado = datetime.strptime(dado['data'], '%d/%m/%Y')  # Definir data_dado dentro do loop
 
-            # Se o mês do dado é o mês escolhido, adiciona a precipitação ao total para aquele ano.
+            # Se o ano do dado está dentro do intervalo especificado e o mês do dado é o mês escolhido, adiciona a precipitação ao total para aquele ano.
             if ano >= int(ano_inicial) and ano <= int(ano_final) and data_dado.month == mes:
-                    if ano in precipitacao_mes_escolhido_por_ano:
-                        precipitacao_mes_escolhido_por_ano[ano] += precipitacao
-                    else:
-                        precipitacao_mes_escolhido_por_ano[ano] = precipitacao
+                if ano in precipitacao_mes_escolhido_por_ano:
+                    precipitacao_mes_escolhido_por_ano[ano] += precipitacao
+                else:
+                    precipitacao_mes_escolhido_por_ano[ano] = precipitacao
 
         # Converter o número do mês para nome do mês.
         nome_mes = meses[mes - 1]  # Subtrai 1 porque os índices da lista começam em 0.
@@ -236,13 +276,12 @@ def mes_menos_e_mais_chuvoso():
         # Construir a resposta JSON com as médias
         if tipo_dados == 'todos_os_dados':
             response_data = {
-                'precipitacao_mes_escolhido_por_ano': {f"{nome_mes}/{ano}": precipitacao for ano, precipitacao in precipitacao_mes_escolhido_por_ano.items()}
+                'precipitacao_mes_escolhido_por_ano': {f"{nome_mes}/{ano}": str(round(precipitacao, 2)) + 'mm' for ano, precipitacao in precipitacao_mes_escolhido_por_ano.items()}
             }
 
-        
-
-
     return jsonify({'message': 'Sucesso', 'dados': response_data}), 200
+
+
 
 # Endpoint para calcular a média da temperatura mínima de um determinado mês nos últimos 11 anos
 @app.route('/api/media-temperatura-minima', methods=['POST'])
