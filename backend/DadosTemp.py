@@ -140,32 +140,36 @@ def visualizar_dados():
         data_dado = datetime.strptime(dado['data'], '%d/%m/%Y')
         if data_dado >= datetime.strptime(data_inicial, '%d/%m/%Y') and data_dado <= datetime.strptime(data_final, '%d/%m/%Y'):
             if tipo_dados == 'todos_os_dados':
-                response_data.append({
-                    'data' : dado['data'],
-                    'precipitacao' : str(dado['precip']) + 'mm',
-                    'temperatura_maxima' : str(dado['maxima']) + '°C',
-                    'temperatura_minima' : str(dado['minima']) + '°C',
-                    'umidade' : str(dado['um_relativa']) + '%',
-                    'velocidade_vento' : str(round(float(dado['vel_vento']), 2)) + ' m/s'
-                })
-            elif tipo_dados == 'precipitacao':
-                response_data.append({
-                    'data': dado['data'],
-                    'precipitacao' : str(dado['precip']) + 'mm'
-                })
-            elif tipo_dados == 'temperatura':
-                response_data.append({
-                    'data' : dado['data'],
-                    'temperatura_maxima' : dado['maxima'] + '°C',
-                    'temperatura_minima' : dado['minima'] + '°C'
-                })
-            elif tipo_dados == 'umidade_velocidade':
-                response_data.append({
-                        'data' : dado['data'],
-                        'umidade' : str(dado['um_relativa']) + '%',
-                        'velocidade_vento' : str(round(float(dado['vel_vento']), 2)) + ' m/s'
+                if dado['precip'] != 'null' and dado['maxima'] != 'null' and dado['minima'] != 'null' and dado['um_relativa'] != 'null' and dado['vel_vento'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'precipitacao': str(dado['precip']) + 'mm',
+                        'temperatura_maxima': str(dado['maxima']) + '°C',
+                        'temperatura_minima': str(dado['minima']) + '°C',
+                        'umidade': str(dado['um_relativa']) + '%',
+                        'velocidade_vento': str(round(float(dado['vel_vento']), 2)) + ' m/s'
                     })
-                print(response_data)  # Adicione esta linha para verificar os dados antes de enviá-los
+            elif tipo_dados == 'precipitacao':
+                if dado['precip'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'precipitacao': str(dado['precip']) + 'mm'
+                    })
+            elif tipo_dados == 'temperatura':
+                if dado['maxima'] != 'null' and dado['minima'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'temperatura_maxima': dado['maxima'] + '°C',
+                        'temperatura_minima': dado['minima'] + '°C'
+                    })
+            elif tipo_dados == 'umidade_velocidade':
+                if dado['um_relativa'] != 'null' and dado['vel_vento'] != 'null':
+                    response_data.append({
+                        'data': dado['data'],
+                        'umidade': str(dado['um_relativa']) + '%',
+                        'velocidade_vento': str(round(float(dado['vel_vento']), 2)) + ' m/s'
+                    })
+                    print(response_data)  # Adicione esta linha para verificar os dados antes de enviá-los
 
     return jsonify({'message': 'Sucesso', 'dados': response_data}), 200
 # Endpoint para obter o mês/dia menos/mais chuvoso
