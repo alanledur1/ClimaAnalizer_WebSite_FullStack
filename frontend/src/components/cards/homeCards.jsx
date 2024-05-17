@@ -87,7 +87,7 @@ const Title = styled.div`
   }
 `;
 
-export const HomeCards = ({ onSelectData, isDark }) => {
+export const HomeCards = ({ onSelectDataApiTemp, onSelectDataApiTempChuva, isDark }) => {
   const selectedTheme = isDark ? darkTheme : lightTheme;
   const [openModal1, setOpenModal1] = useState(false);
   const [openModal2, setOpenModal2] = useState(false);
@@ -104,9 +104,13 @@ export const HomeCards = ({ onSelectData, isDark }) => {
   const handleCloseModal2 = () => {
     setOpenModal2(false);
   };
-  const handleSelectData = (selectedData) => {
-    onSelectData(selectedData);
+  const handleSelectDataApiTemp = (selectedData) => {
+    onSelectDataApiTemp(selectedData);
     handleCloseModal1();
+  };
+  const handleSelectDataApiTempChuva = (selectedData) => {
+    onSelectDataApiTempChuva(selectedData);
+    handleCloseModal2();
   };
 
   return (
@@ -138,7 +142,7 @@ export const HomeCards = ({ onSelectData, isDark }) => {
               Dados Meteorológicos
             </Typography>
             <ApiTemp 
-              onSelectData={handleSelectData} 
+              onSelectData={handleSelectDataApiTemp} 
               isDark={isDark} 
               darkTheme={darkTheme} 
               lightTheme={lightTheme} 
@@ -184,7 +188,7 @@ export const HomeCards = ({ onSelectData, isDark }) => {
               Dados Meteorológicos
             </Typography>
             <ApiTempChuva 
-              onSelectData={handleSelectData} 
+              onSelectData={handleSelectDataApiTempChuva} 
               isDark={isDark} 
               darkTheme={darkTheme} 
               lightTheme={lightTheme} 

@@ -11,6 +11,12 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
+  const DataRow = ({ title, value }) => (
+    <tr style={{width: '320px', display: 'flex', marginBottom:'8px'}}>
+      <td style={{ fontWeight: 'bold', padding: '5px' }}>{title}</td>
+      <td style={{ padding: '5px' }}>{value}</td>
+    </tr>
+  );
 
 
   // Função para dividir os dados em grupos de duas colunas
@@ -48,7 +54,7 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
           color: selectedTheme.text_primary
         }}
       >
-      Dados Meteorológicos
+      teste Meteorológicos
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
         // Dividindo os dados em grupos de duas colunas
@@ -56,55 +62,58 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
           <List key={columnIndex} sx={{ display: 'flex', marginBottom: '20px' }}>
             {columnData.map((data, index) => (
               <Box
-              key={index}
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '8px',
-                padding: '20px',
-                border: `1px solid ${({ theme }) => theme.nav}`,
-                borderRadius: '8px',
-                background: selectedTheme.BackgroundDados,
-                marginBottom: '0px',
-                marginLeft: '5px',
-                marginRight: '5px',
-                maxWidth: '800px',
-                color: selectedTheme.text_secondary,
-                transition: 'all 0.5s ease-in-out', // Adiciona uma transição suave para todas as mudanças
-                '&:hover': {
-                  backgroundColor: selectedTheme.card + 99,
-                  color: selectedTheme.text_primary,
-                  cursor: 'pointer',
-                  transform: 'scale(1.05)', // Aumenta ligeiramente o tamanho do elemento ao passar o mouse sobre ele
-                },
-              }}
+                key={index}
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '8px',
+                  padding: '20px',
+                  border: `1px solid ${({ theme }) => theme.nav}`,
+                  borderRadius: '8px',
+                  background: selectedTheme.BackgroundDados,
+                  marginBottom: '0px',
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                  maxWidth: '800px',
+                  color: selectedTheme.text_secondary,
+                  transition: 'all 0.5s ease-in-out',
+                  '&:hover': {
+                    backgroundColor: selectedTheme.card + 99,
+                    color: selectedTheme.text_primary,
+                    cursor: 'pointer',
+                    transform: 'scale(1.02)', 
+                  },
+                }}
               >
-                <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Data: 📅</Typography>
-                <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.data}</Typography>
-              {data.precipitacao && (
-                <>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Precipitação: ☔</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.precipitacao}</Typography>
-                </>
-              )}
-              {data.temperatura_maxima && data.temperatura_minima && (
-                <>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Máxima: 🔥</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.temperatura_maxima}</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Mínima: ❄️</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.temperatura_minima}</Typography>
-                </>
-              )}
-              {data.umidade && data.velocidade_vento && (
-                <>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Umidade: 💧</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.umidade}</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Velocidade do Vento: 🌬️</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px',borderRight: '1px solid gray' }}>{data.velocidade_vento}</Typography>
-                </>
-              )}  
-              
-            </Box>
+                <table>
+                  {data.data_completa_mais_chuvoso && data.dia_mais_chuvoso && data.precipitacao_para_o_dia_mais && (
+                    <>
+                      <DataRow title="Data: 📅" value={data.data_completa_mais_chuvoso} />
+                      <DataRow title="Dia mais chuvoso:" value={data.dia_mais_chuvoso} />
+                      <DataRow title="Precipitação para o Dia: ☔" value={data.precipitacao_para_o_dia_mais} />
+                    </>
+                  )}
+                  {data.mes_mais_chuvoso && data.precipitacao_para_o_mes_mais && (
+                    <>
+                      <DataRow title="Mês mais chuvoso:" value={data.mes_mais_chuvoso} />
+                      <DataRow title="Precipitação para o Mês: ☔" value={data.precipitacao_para_o_mes_mais} />
+                    </>
+                  )}
+                  {data.data_completa_menos_chuvoso && data.dia_menos_chuvoso && data.precipitacao_para_o_dia && (
+                    <>
+                      <DataRow title="Data: 📅" value={data.data_completa_menos_chuvoso} />
+                      <DataRow title="Dia menos chuvoso:" value={data.dia_menos_chuvoso} />
+                      <DataRow title="Precipitação para o Dia: ☔" value={data.precipitacao_para_o_dia} />
+                    </>
+                  )}
+                  {data.mes_menos_chuvoso && data.precipitacao_para_o_mes && (
+                    <>
+                      <DataRow title="Mês menos chuvoso:" value={data.mes_menos_chuvoso} />
+                      <DataRow title="Precipitação para o Mês: ☔" value={data.precipitacao_para_o_mes} />
+                    </>
+                  )}
+                </table>
+              </Box>
             
             ))}
           </List>
@@ -120,7 +129,7 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
   );
 };
 
-WeatherDataPagination.propTypes = {
+WeatherDataPaginationCard2.propTypes = {
   weatherData: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired // Defina o tipo da prop theme como um objeto
 };

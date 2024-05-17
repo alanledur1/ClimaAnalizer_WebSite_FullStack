@@ -6,13 +6,24 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { darkTheme, lightTheme } from '../utils/Themes.js';
 import { Typography, TextField, Button,Box } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+
 
 function ApiTempChuva({ onSelectData, isDark }) {
   const selectedTheme = isDark ? darkTheme : lightTheme;
   const [option, setOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [month, setMonth] = useState('');
+  const [intervaloTempo, setIntervaloTempo] = useState('um_ano');
+  const [tempo, setTempo] = useState('um_ano');
+
+  const handleMonthChange = (event) => {
+    setMonth(event.target.value);
+  };
+
+  const handleTempoChange = (event) => {
+    setTempo(event.target.value); // Atualiza o estado do intervalo de tempo
+  };
 
   
   const handleStartDateChange = (event) => {
@@ -50,7 +61,8 @@ function ApiTempChuva({ onSelectData, isDark }) {
       switch (option) {
         case '1':
           const responseAll = await axios.post('/api/mes-dia-chuvoso', {
-            tipo_dados: 'mes_e_dia_mais_chuvoso',
+            tipo_dados: 'todos_os_dados',
+            intervalo_tempo: intervaloTempo,
             data_inicial: startDate,
             data_final: endDate
           });
@@ -58,7 +70,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
           break;
         case '2':
           const responsePrecip = await axios.post('/api/mes-dia-chuvoso', {
-            tipo_dados:  'mes_e_dia_menos_chuvoso',
+            tipo_dados:  'mes_dia_mais_chuvoso',
             data_inicial: startDate,
             data_final: endDate
           });
@@ -66,20 +78,20 @@ function ApiTempChuva({ onSelectData, isDark }) {
           break;
         case '3': 
           const responseTemp = await axios.post('/api/mes-dia-chuvoso', {
-            tipo_dados: 'mes_dias_mais_seco',
+            tipo_dados: 'mes_dia_menos_chuvoso',
             data_inicial: startDate,
             data_final: endDate
           });
           onSelectData(responseTemp.data);
           break;
-        case '4':
+        /*  case '4':
           const responseHumidityVel = await axios.post('/api/mes-dia-chuvoso', {
             tipo_dados: 'ano_mais_E_menos_chuvoso',
             data_inicial: startDate,
             data_final: endDate
           });
           onSelectData(responseHumidityVel.data);
-          break;
+          break; */
         default:
           alert('Opção inválida. Tente novamente.');
       }
@@ -145,6 +157,29 @@ function ApiTempChuva({ onSelectData, isDark }) {
           }}
           sx={{marginLeft: '4px'}}
         />
+
+        {endDate - startDate > 1 && ( // Se o intervalo de anos for maior que 1, exibe o campo de entrada do mês
+                <TextField
+                  type="text" 
+                  id="mes"
+                  label="Mês"
+                  value={month}
+                  onChange={handleMonthChange}
+                  placeholder="MM"
+                  maxLength="2"
+                  InputLabelProps={{ 
+                    shrink: true,
+                    style: { 
+                      width: '50%',
+                      textAlign: 'center',
+                      color: selectedTheme.text_primary,
+                      backgroundColor: selectedTheme.bgLight,
+                      borderRadius: '7px'
+                    }
+                  }}
+                  sx={{marginLeft: '4px'}}
+                />
+              )}
     </Box>
     <FormControl sx={{ minWidth: 200 }} size="small">
       <InputLabel id="demo-select-small-label" sx={{color: selectedTheme.text_primary}}>Opção</InputLabel>
@@ -152,7 +187,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
         labelId="demo-select-small-label"
         id="controllable-states-demo"
         value={option}
-        label="Opção"
+        label="Opção" 
         onChange={handleOptionChange}
         variant="outlined"
         fullWidth
@@ -182,6 +217,39 @@ function ApiTempChuva({ onSelectData, isDark }) {
         <MenuItem value="2">Mês Mais Chuvoso</MenuItem>
         <MenuItem value="3">Mês Menos Chuvoso</MenuItem>
         <MenuItem value="4">Umidade e Velocidade do vento</MenuItem>
+      </Select>
+    </FormControl>
+    <FormControl sx={{ minWidth: 200 }} size="small">
+      <InputLabel id="demo-select-tempo-label" sx={{color: selectedTheme.text_primary}}>Intervalo de Tempo</InputLabel>
+      <Select
+        labelId="demo-select-tempo-label"
+        id="controllable-states-tempo"
+        value={tempo}
+        label="Intervalo de Tempo"
+        onChange={handleTempoChange}
+        variant="outlined"
+        fullWidth
+        sx={{
+          '& .MuiSelect-select': {
+            color: selectedTheme.text_primary, // Cor do texto selecionado
+          },
+        }}
+        MenuProps={{ 
+          PaperProps: {
+            sx: {
+              backgroundColor: selectedTheme.card_light,
+              color: selectedTheme.text_primary,
+              borderRadius: '8px',
+              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+              padding: '8px',
+              fontFamily: 'Arial, sans-serif',
+            },
+          },
+          
+        }}
+      >
+        <MenuItem value="um_ano">Um Ano</MenuItem>
+        <MenuItem value="varios_anos">Vários Anos</MenuItem>
       </Select>
     </FormControl>
     <Button variant="contained" onClick={handleOptionSubmit}>Selecionar</Button>
