@@ -4,6 +4,7 @@ import Typewriter from "typewriter-effect";
 import '../home/home.css' 
 import { HomeCards } from '../cards/homeCards';
 import { WeatherDataPagination } from '../weatherTemp/WeatherDataPagination';
+import { WeatherDataPaginationCard2 } from '../weatherTemp/WeatherDataPaginationCard-2';
 
 const ContentHome = styled.div`
 display: flex;
@@ -171,10 +172,18 @@ const BoxContent = styled.div`
 `;
 
 export const Home = ({ isDark, darkTheme, lightTheme }) => {
-  const [weatherDataFromServer, setWeatherDataFromServer] = useState(null);
+  const [weatherDataFromApiTemp, setWeatherDataFromApiTemp] = useState(null);
+  const [weatherDataFromApiTempChuva, setWeatherDataFromApiTempChuva] = useState(null);
 
-  const handleSelectData = (selectedData) => {
-    setWeatherDataFromServer(selectedData);
+
+  const handleSelectDataApiTemp = (selectedData) => {
+    setWeatherDataFromApiTemp(selectedData);
+    setWeatherDataFromApiTempChuva(null); // Limpa os dados do segundo card
+  };
+
+  const handleSelectDataApiTempChuva = (selectedData) => {
+    setWeatherDataFromApiTempChuva(selectedData);
+    setWeatherDataFromApiTemp(null); // Limpa os dados do primeiro card
   };
 
   return (
@@ -199,23 +208,37 @@ export const Home = ({ isDark, darkTheme, lightTheme }) => {
           <DescriptionBody>Explore o histórico climático detalhado de Porto Alegre de 1996 a 2016 e descubra padrões climáticos ao longo das últimas décadas. Em breve, estaremos adicionando informações sobre outras localidades para oferecer uma visão abrangente do clima em diferentes regiões. Analise as tendências de temperatura, precipitação e outros fatores climáticos para entender melhor o clima da sua região.</DescriptionBody>
         </Description>
         <CardContent>
-          <HomeCards 
-            onSelectData={handleSelectData}             
-            isDark={isDark} 
-            darkTheme={darkTheme} 
-            lightTheme={lightTheme} 
-            theme={isDark ? darkTheme : lightTheme}  
-          />
-        </CardContent>
-        {weatherDataFromServer && <BoxContent>
-          <WeatherDataPagination 
-            weatherData={weatherDataFromServer} 
+        <HomeCards 
+            onSelectDataApiTemp={handleSelectDataApiTemp} 
+            onSelectDataApiTempChuva={handleSelectDataApiTempChuva}             
             isDark={isDark} 
             darkTheme={darkTheme} 
             lightTheme={lightTheme} 
             theme={isDark ? darkTheme : lightTheme} 
           />
-        </BoxContent>}
+        </CardContent>
+        {weatherDataFromApiTemp && (
+          <BoxContent>
+            <WeatherDataPagination 
+              weatherData={weatherDataFromApiTemp} 
+              isDark={isDark} 
+              darkTheme={darkTheme} 
+              lightTheme={lightTheme} 
+              theme={isDark ? darkTheme : lightTheme} 
+            />
+          </BoxContent>
+        )}
+        {weatherDataFromApiTempChuva && (
+          <BoxContent>
+            <WeatherDataPaginationCard2 
+              weatherData={weatherDataFromApiTempChuva} 
+              isDark={isDark} 
+              darkTheme={darkTheme} 
+              lightTheme={lightTheme} 
+              theme={isDark ? darkTheme : lightTheme} 
+            />
+          </BoxContent>
+        )}
       </Content>
     </ContentHome>
   );
