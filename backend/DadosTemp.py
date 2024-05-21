@@ -225,8 +225,8 @@ def mes_menos_e_mais_chuvoso():
             response_data.append({
                 'mes_mais_chuvoso': mes_mais_chuvoso, 
                 'dia_mais_chuvoso': dia_mais_chuvoso,
-                'precipitacao_para_o_dia': str(round(precipitacao_dia_mais, 2)) + 'mm',
-                'precipitacao_para_o_mes': str(round(precipitacao_mes_mais, 2)) + 'mm',
+                'precipitacao_para_o_dia_mais': str(round(precipitacao_dia_mais, 2)) + 'mm',
+                'precipitacao_para_o_mes_mais': str(round(precipitacao_mes_mais, 2)) + 'mm',
                 'data_completa_mais_chuvoso': data_mais_chuvoso
             })
             response_data.append({
