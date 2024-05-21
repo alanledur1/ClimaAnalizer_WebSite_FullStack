@@ -5,6 +5,7 @@ import { Navigation } from './components/navigation/navigation';
 import { Home } from './components/home/home';
 import { darkTheme, lightTheme } from './utils/Themes';
 import React, { useState } from 'react';
+import { Footer } from './components/footer/footer';
 
 
 // Estilos globais
@@ -69,6 +70,7 @@ function App() {
             <Home isDark={isDark} darkTheme={darkTheme} lightTheme={lightTheme} />
             <div style={{height: '100vh'}}></div>
           </Wrapper>
+          <Footer />
       </AppContainer>
       </Router>
     </ThemeProvider>
