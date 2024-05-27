@@ -6,8 +6,8 @@ import { darkTheme, lightTheme } from '../../utils/Themes.js';
 import ImgMedia from "../../img/termometros.png";
 import ImgMedia2 from "../../img/nuvemChuva.png";
 import ImgMedia3 from "../../img/solNuvem.png";
-import ApiTempChuva from '../../services/apiCard2';
-import ApiTemp from '../../services/api';
+import ApiTempChuva from '../../services/apiCard2.jsx';
+import ApiTemp from '../../services/api.jsx';
 
 const CardContent = styled.div`
   display: flex;

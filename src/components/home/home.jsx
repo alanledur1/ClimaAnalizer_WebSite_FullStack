@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Typewriter from "typewriter-effect";
-import '../home/home.css' 
+import './home.css' 
 import { HomeCards } from '../cards/homeCards';
 import { WeatherDataPagination } from '../weatherTemp/WeatherDataPagination';
 import { WeatherDataPaginationCard2 } from '../weatherTemp/WeatherDataPaginationCard-2';

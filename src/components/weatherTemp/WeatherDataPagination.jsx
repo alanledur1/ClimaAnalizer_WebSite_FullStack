@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Typography, List, Button, Box } from '@mui/material'
+import { Typography, List, Button, Box } from '@mui/material'; // Adicione esta linha para importar os componentes necessários do MUI
 import PropTypes from 'prop-types';
 import { darkTheme, lightTheme } from '../../utils/Themes.js';
 
@@ -18,6 +18,8 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
     for (let i = 0; i < rows; i++) {
       result.push(data.slice(i * columns, (i + 1) * columns));
     }
+
+
     return result;
   };
 
@@ -27,7 +29,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
   const handlePrevPage = () => { 
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-
+  
   return (
     <Box 
       sx={{ 
@@ -115,6 +117,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
     </Box>
   );
 };
+
 
 WeatherDataPagination.propTypes = {
   weatherData: PropTypes.object.isRequired,

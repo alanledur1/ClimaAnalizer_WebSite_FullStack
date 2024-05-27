@@ -5,7 +5,7 @@ import { FaBars } from "react-icons/fa";
 import image from "../../img/image.png";
 import image2 from "../../img/image2.png";
 import Logo from "../../img/logo4.png";
-import "../navigation/navigation.css"
+import "./navigation.css"
 
 const Nav = styled.div`
   background-color: ${({ theme }) => theme.card_light};
