@@ -54,7 +54,7 @@ function ApiTemp({ onSelectData, isDark }) {
         case '2':
         case '3':
         case '4':
-          const responseData = await axios.post('/api/visualizar-dados', {
+          const responseData = await axios.post('http://54.207.230.145:5000/api/visualizar-dados', {
             tipo_dados: option === '1' ? 'todos_os_dados' : option === '2' ? 'precipitacao' : option === '3' ? 'temperatura' : 'umidade_velocidade',
             data_inicial: startDate,
             data_final: endDate
