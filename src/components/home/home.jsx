@@ -11,7 +11,10 @@ display: flex;
 justify-content: center;
 align-items: center;
 height: 100%;
-
+@media screen and (max-width: 378px) {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
 `;
 
 const Content = styled.div`
@@ -28,6 +31,17 @@ const Content = styled.div`
   flex-wrap: wrap;
   padding: 35px;
   max-width: 900px;
+  @media (max-width: 748px;) {
+    padding: 10px;
+    gap: 8px;
+    width: 300px;
+  }
+  @media screen and (max-width: 378px) {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 10px;
+    flex-direction: column;
+  }
   
 `;
 
@@ -39,6 +53,17 @@ const Title = styled.h1`
   font-weight: 900;
   border-radius: 5px;
   width: 100%;
+  @media (max-width: 900px;) {
+    font-size: 22px;
+  }
+  @media (max-width: 900px;) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 378px) {
+    font-size: 16px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+  }
 `;
 
 const TextLoop = styled.div`
@@ -60,6 +85,11 @@ const TextLoop = styled.div`
       font-size: 22px;
       line-height: 48px;
       margin-bottom: 16px;
+    }
+    @media screen and (max-width: 378px) {
+      font-size: 8px;
+      line-height: 20px;
+      margin-bottom: 10px;
     }
 `;
 
@@ -168,7 +198,6 @@ const BoxContent = styled.div`
     box-shadow: rgba(33, 60, 115, 0.15) 0px 4px 24px;
     backdrop-filter: blur(6px);
     border: 1px solid ${({ theme }) => theme.border};
-
 `;
 
 export const Home = ({ isDark, darkTheme, lightTheme }) => {

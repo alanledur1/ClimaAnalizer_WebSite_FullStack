@@ -18,6 +18,12 @@ const CardContent = styled.div`
   flex-direction: row;
   align-content: center;
   align-items: center;
+  @media screen and (max-width: 378px) {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 10px;
+    flex-direction: column;
+  }
 `;
 
 const Card = styled.div`
