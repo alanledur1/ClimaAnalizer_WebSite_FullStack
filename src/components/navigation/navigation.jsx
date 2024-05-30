@@ -25,6 +25,12 @@ const Nav = styled.div`
   @media screen and (max-width: 960px) {
     transition: 0.8s all ease;
   }
+  @media screen and (max-width: 378px) {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 10px;
+
+  }
 `;
 
 
@@ -36,6 +42,11 @@ const NavContainer = styled.div`
   width: 100%;
   padding: 0 24px;
   max-width: 1200px;
+  @media screen and (max-width: 378px) {
+    font-size: 10px;
+    line-height: 28px;
+    margin-bottom: 10px;
+  }
 `;
 
 const NavLogo =styled.div`
@@ -65,6 +76,7 @@ const MobileIcon = styled.div`
     cursor: pointer;
     color: ${({ theme }) => theme.text_primary};
   }
+  
 `;
 
 const NavItems = styled.ul`
@@ -78,6 +90,7 @@ const NavItems = styled.ul`
   @media screen and (max-width: 768px) {
     display: none;
   }
+  
 `;
 
 const NavLink = styled.a`
@@ -89,6 +102,7 @@ const NavLink = styled.a`
   &:hover {
     color: ${({ theme }) => theme.primary}
   }
+  
 `;
 
 const ButtonContainer = styled.div`
@@ -205,6 +219,17 @@ const TitleLogo = styled.div`
   transition: all 0.2s ease-in-out;
   &:hover {
     color: ${({ theme }) => theme.primary}
+  }
+  @media screen and (max-width: 378px) {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 10px;
+    margin-top: 10%;
+    font-weight: 500;
+    margin-left: 2px;
+    cursor: pointer;
+    text-decoration: none;
+
   }
 `;
 
