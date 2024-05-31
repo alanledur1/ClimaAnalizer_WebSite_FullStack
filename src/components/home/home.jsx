@@ -209,6 +209,13 @@ const BoxContent = styled.div`
     box-shadow: rgba(33, 60, 115, 0.15) 0px 4px 24px;
     backdrop-filter: blur(6px);
     border: 1px solid ${({ theme }) => theme.border};
+    @media screen and (max-width: 378px) {
+      font-size: 12px;
+      margin-bottom: 10px;
+      justify-content: center;
+      .static-text {
+        display: none;
+      }
 `;
 
 const StaticText = styled.div`

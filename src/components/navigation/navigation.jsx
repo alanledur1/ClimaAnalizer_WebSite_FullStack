@@ -262,8 +262,8 @@ const TitleLogo = styled.div`
   transition: all 0.2s ease-in-out;
   display: block;
   @media screen and (max-width: 378px) {
-    position: fixed;
-    left: 25px;
+    position: relative;
+    left: 55px;
     font-size: 16px;
     margin-top: 30px;
     margin-bottom: 24px;
