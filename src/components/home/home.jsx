@@ -61,8 +61,11 @@ const Title = styled.h1`
   }
   @media screen and (max-width: 378px) {
     font-size: 16px;
-    margin-top: 40px;
+    margin-top: 35px;
     margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
 `;
 
@@ -87,9 +90,12 @@ const TextLoop = styled.div`
       margin-bottom: 16px;
     }
     @media screen and (max-width: 378px) {
-      font-size: 8px;
-      line-height: 20px;
+      font-size: 12px;
       margin-bottom: 10px;
+      justify-content: center;
+      .static-text {
+        display: none;
+      }
     }
 `;
 
@@ -131,6 +137,11 @@ const Description = styled.div`
   }
   &:hover:after {
     transform: translateX(0.15rem)
+  }
+  @media screen and (max-width: 378px) {
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 15px;
   }
   
 `;
@@ -200,6 +211,10 @@ const BoxContent = styled.div`
     border: 1px solid ${({ theme }) => theme.border};
 `;
 
+const StaticText = styled.div`
+    display: flex;
+`;
+
 export const Home = ({ isDark, darkTheme, lightTheme }) => {
   const [weatherDataFromApiTemp, setWeatherDataFromApiTemp] = useState(null);
   const [weatherDataFromApiTempChuva, setWeatherDataFromApiTempChuva] = useState(null);
@@ -220,7 +235,7 @@ export const Home = ({ isDark, darkTheme, lightTheme }) => {
       <Content>
         <Title>Bem-vindo ao ClimaAnalizer</Title>
         <TextLoop>
-          Analise os dados meteorológicos: 
+           <StaticText className='static-text'>Analise os dados meteorológicos:</StaticText> 
           <Span>
             <Typewriter 
             options={{
