@@ -45,7 +45,6 @@ const NavContainer = styled.div`
   @media screen and (max-width: 378px) {
     font-size: 10px;
     line-height: 28px;
-    margin-bottom: 10px;
   }
 `;
 
@@ -115,6 +114,12 @@ const ButtonContainer = styled.div`
    @media screen and (max-width: 640px) {
     display: none;
    }
+   @media screen and (max-width: 378px) {
+    justify-content: center;
+    align-items: center;
+    margin-right: 55px;
+    display: inline-flex;
+}
 `;
 
 export const Span = styled.div`
@@ -206,8 +211,46 @@ const ButtonLabel = styled.label`
    @media screen and (max-width: 640) {
     font-size: 0.8rem;
    }
+   @media screen and (max-width: 378px) {
+    width: 53px;
+    height: 30px;
+    &:after {
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+      border-radius: 50%;
+      
+      left: 5px;
+      transition: 0.3s;
+    }
+    /* Estilos quando o input está checado */
+  ${InputCheckbox}:checked + & {
+    background: #242424;
+    background-image: url(${image2});
+  }
+
+  ${InputCheckbox}:checked + &:after {
+    left: 25px;
+    transition: 0.3s;
+    background-image: url(${image2}); 
+  }
+  }
 `;
 
+const LogoImage = styled.div`
+  background-image: url(${Logo});
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transform: translate(0%, 0%);
+  width: 90px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 378px) {
+    display: none;
+  }
+`;
 
 const TitleLogo = styled.div`
   color: ${({ theme }) => theme.text_primary};
@@ -217,21 +260,16 @@ const TitleLogo = styled.div`
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  &:hover {
-    color: ${({ theme }) => theme.primary}
-  }
+  display: block;
   @media screen and (max-width: 378px) {
+    position: fixed;
+    left: 25px;
     font-size: 16px;
-    line-height: 28px;
-    margin-bottom: 10px;
-    margin-top: 10%;
-    font-weight: 500;
-    margin-left: 2px;
-    cursor: pointer;
-    text-decoration: none;
-
+    margin-top: 30px;
+    margin-bottom: 24px;
   }
 `;
+
 
 export const Navigation = ({isDark, setIsDark}) => {
 const [open, setOpen] = React.useState(false);
@@ -245,23 +283,13 @@ const [open, setOpen] = React.useState(false);
   return (
     <Nav>
         <NavContainer>
-          <NavLogo to="/" style={{ display: "flex", alignItems: "center" }}>
+          <NavLogo to="/" style={{ display: "flex", alignItems: "center" }} >
               <a style={{
                   display:"flex",
                   alignItems:"center",
                   marginRight:"10px",
               }}>
-                <div style={{
-                         backgroundImage: `url(${Logo})`,
-                          backgroundSize: "cover",       
-                          backgroundRepeat:"no-repeat", 
-                          zIndex: "1", 
-                          transform: "translate(0%, 0%)",
-                          width: "90px",
-                          height: "80px",
-                          display: "flex",
-                          alignItems: "center",
-                  }}></div>
+                <LogoImage className='logo-image'></LogoImage>
                   <TitleLogo><strong>Clima</strong>Analizer</TitleLogo>
               </a>
               
