@@ -5,6 +5,7 @@ const FooterContainer = styled.div`
     width: 100%;
     height: 100px;
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     background-color: ${({ theme }) => theme.bg};
