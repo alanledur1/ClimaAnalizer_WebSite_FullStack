@@ -13,6 +13,8 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
   const isSmallScreen = useMediaQuery('(max-width:378px)');
   const isMediumScreen = useMediaQuery('(max-width:600px)');
 
+  const itemWidth = isSmallScreen ? '100%' : isMediumScreen ? '50%' : 'calc(100% / 3)'; // Adjust width based on screen size
+
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
@@ -47,14 +49,14 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
               key={index}
               sx={{
                 display: 'grid',
-                gridTemplateColumns: isSmallScreen ? '1fr 1fr' : isMediumScreen ? '1fr 1fr' : '1fr',
+                gridTemplateColumns: '1fr',
                 gap: '8px',
                 padding: '20px',
                 border: `1px solid ${({ theme }) => theme.nav}`,
                 borderRadius: '8px',
                 background: selectedTheme.BackgroundDados,
                 marginBottom: '10px',
-                width: '100%', // Set width to 100% for all screen sizes
+                width: itemWidth,
                 color: selectedTheme.text_secondary,
                 transition: 'all 0.5s ease-in-out',
                 '&:hover': {
@@ -107,4 +109,3 @@ WeatherDataPagination.propTypes = {
   weatherData: PropTypes.object.isRequired,
   isDark: PropTypes.bool.isRequired,
 };
-
