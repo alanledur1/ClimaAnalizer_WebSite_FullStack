@@ -13,7 +13,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
   const isSmallScreen = useMediaQuery('(max-width:378px)');
   const isMediumScreen = useMediaQuery('(max-width:600px)');
 
-  const itemWidth = isSmallScreen ? '100%' : isMediumScreen ? '50%' : 'calc(100% / 3)'; // Adjust width based on screen size
+  const itemWidth = isSmallScreen ? '50%' : isMediumScreen ? '50%' : 'calc(100% / 3)'; // Adjust width based on screen size
 
   const fontSize = isSmallScreen ? '10px' : isMediumScreen ? '12px' : 'inherit'; // Adjust font size based on screen size
 
@@ -58,6 +58,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
                 borderRadius: '8px',
                 background: selectedTheme.BackgroundDados,
                 marginBottom: '10px',
+                marginRight:'5px',
                 width: itemWidth,
                 color: selectedTheme.text_secondary,
                 transition: 'all 0.5s ease-in-out',
