@@ -69,26 +69,30 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
             >
               <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Data: 📅</Typography>
               <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.data}</Typography>
-              {data.precipitacao && (
+              {(!isSmallScreen || index < 3) && ( // Render only if not on small screen or if index is less than 3
                 <>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Precipitação: ☔</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.precipitacao}</Typography>
-                </>
-              )}
-              {data.temperatura_maxima && data.temperatura_minima && (
-                <>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Máxima: 🔥</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.temperatura_maxima}</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Mínima: ❄️</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.temperatura_minima}</Typography>
-                </>
-              )}
-              {data.umidade && data.velocidade_vento && (
-                <>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Umidade: 💧</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.umidade}</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Vel. do Vento: 🌬️</Typography>
-                  <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.velocidade_vento}</Typography>
+                  {data.precipitacao && (
+                    <>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Precipitação: ☔</Typography>
+                      <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.precipitacao}</Typography>
+                    </>
+                  )}
+                  {data.temperatura_maxima && data.temperatura_minima && (
+                    <>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Máxima: 🔥</Typography>
+                      <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.temperatura_maxima}</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Mínima: ❄️</Typography>
+                      <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.temperatura_minima}</Typography>
+                    </>
+                  )}
+                  {data.umidade && data.velocidade_vento && (
+                    <>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Umidade: 💧</Typography>
+                      <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.umidade}</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Vel. do Vento: 🌬️</Typography>
+                      <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.velocidade_vento}</Typography>
+                    </>
+                  )}
                 </>
               )}
             </Box>
