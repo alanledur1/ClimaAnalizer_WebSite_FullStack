@@ -26,6 +26,10 @@ const Description = styled.div`
     color: ${({ theme }) => theme.text_primary+99};
     font-weight: 600px;
     font-family: monospace;
+    @media screen and (max-width: 600px) {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
     @media screen and (max-width: 378px) {
         font-size: 10px;
         margin-bottom: 10px;

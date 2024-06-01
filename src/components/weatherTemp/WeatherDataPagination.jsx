@@ -51,7 +51,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
         splitDataIntoColumns(weatherData.dados.slice(startIndex, endIndex), isSmallScreen ? 1 : isMediumScreen ? 1 : 2).map((columnData, columnIndex) => (
-          <List key={columnIndex} sx={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-around' }}>
+          <List key={columnIndex} sx={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row', marginBottom: '20px', justifyContent: 'space-around' }}>
             {columnData.map((data, index) => (
               <Box
                 key={index}
@@ -59,14 +59,12 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
                   display: 'grid',
                   gridTemplateColumns: isSmallScreen ? '1fr' : isMediumScreen ? '1fr' : 'repeat(2, 1fr)',
                   gap: '8px',
-                  padding: '20px',
+                  padding: '10px',
                   border: `1px solid ${({ theme }) => theme.nav}`,
                   borderRadius: '8px',
                   background: selectedTheme.BackgroundDados,
-                  marginBottom: '0px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                  maxWidth: '800px',
+                  marginBottom: '10px',
+                  maxWidth: '100%',
                   color: selectedTheme.text_secondary,
                   transition: 'all 0.5s ease-in-out',
                   '&:hover': {
@@ -118,5 +116,5 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
 
 WeatherDataPagination.propTypes = {
   weatherData: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired // Defina o tipo da prop theme como um objeto
+  isDark: PropTypes.bool.isRequired,
 };
