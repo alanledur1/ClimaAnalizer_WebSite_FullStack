@@ -29,7 +29,11 @@ const Nav = styled.div`
     font-size: 16px;
     line-height: 28px;
     margin-bottom: 10px;
-
+  }
+  @media screen and (max-width: 378px) {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -42,6 +46,10 @@ const NavContainer = styled.div`
   width: 100%;
   padding: 0 24px;
   max-width: 1200px;
+  @media screen and (max-width: 378px) {
+    font-size: 10px;
+    line-height: 28px;
+  }
   @media screen and (max-width: 378px) {
     font-size: 10px;
     line-height: 28px;
@@ -111,15 +119,18 @@ const ButtonContainer = styled.div`
    width: 80%;
    height: 100%;
    padding: 0 6px;
-   @media screen and (max-width: 640px) {
-    display: none;
+   @media screen and (max-width: 600px) {
+    justify-content: center;
+    align-items: center;
+    margin-right: 55px;
+    display: inline-flex;
    }
    @media screen and (max-width: 378px) {
     justify-content: center;
     align-items: center;
     margin-right: 55px;
     display: inline-flex;
-}
+   }
 `;
 
 export const Span = styled.div`
@@ -211,6 +222,30 @@ const ButtonLabel = styled.label`
    @media screen and (max-width: 640) {
     font-size: 0.8rem;
    }
+   @media screen and (max-width: 600px) {
+    width: 53px;
+    height: 30px;
+    &:after {
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+      border-radius: 50%;
+      
+      left: 5px;
+      transition: 0.3s;
+    }
+    /* Estilos quando o input está checado */
+  ${InputCheckbox}:checked + & {
+    background: #242424;
+    background-image: url(${image2});
+  }
+
+  ${InputCheckbox}:checked + &:after {
+    left: 25px;
+    transition: 0.3s;
+    background-image: url(${image2}); 
+  }
+  }
    @media screen and (max-width: 378px) {
     width: 53px;
     height: 30px;
@@ -247,6 +282,9 @@ const LogoImage = styled.div`
   height: 80px;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
   @media screen and (max-width: 378px) {
     display: none;
   }
@@ -261,9 +299,14 @@ const TitleLogo = styled.div`
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   display: block;
+  @media screen and (max-width: 600px) {
+    position: relative;
+    left: 70px;
+    font-size: 18px;
+  }
   @media screen and (max-width: 378px) {
-    position: fixed;
-    left: 25px;
+    position: relative;
+    left: 55px;
     font-size: 16px;
     margin-top: 30px;
     margin-bottom: 24px;

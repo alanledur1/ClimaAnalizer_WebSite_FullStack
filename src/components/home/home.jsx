@@ -56,15 +56,18 @@ const Title = styled.h1`
   @media (max-width: 900px;) {
     font-size: 22px;
   }
-  @media (max-width: 900px;) {
-    font-size: 22px;
+  @media screen and (max-width: 600px) {
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    justify-content: center;
+    display: flex;
   }
   @media screen and (max-width: 378px) {
     font-size: 16px;
-    margin-top: 35px;
     margin-bottom: 10px;
+    margin-top: 0px;
     justify-content: center;
-    align-items: center;
     display: flex;
   }
 `;
@@ -84,10 +87,14 @@ const TextLoop = styled.div`
       text-align: center;
     }
 
-    @media screen and (max-width: 640px) {
-      font-size: 22px;
-      line-height: 48px;
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
       margin-bottom: 16px;
+      margin-bottom: 10px;
+      justify-content: center;
+      .static-text {
+        display: none;
+      }
     }
     @media screen and (max-width: 378px) {
       font-size: 12px;
@@ -137,6 +144,11 @@ const Description = styled.div`
   }
   &:hover:after {
     transform: translateX(0.15rem)
+  }
+  @media screen and (max-width: 600px) {
+    font-size: 15px;
+    line-height: 20px;
+    margin-bottom: 15px;
   }
   @media screen and (max-width: 378px) {
     font-size: 12px;
@@ -209,6 +221,13 @@ const BoxContent = styled.div`
     box-shadow: rgba(33, 60, 115, 0.15) 0px 4px 24px;
     backdrop-filter: blur(6px);
     border: 1px solid ${({ theme }) => theme.border};
+    @media screen and (max-width: 378px) {
+      font-size: 12px;
+      margin-bottom: 10px;
+      justify-content: center;
+      .static-text {
+        display: none;
+      }
 `;
 
 const StaticText = styled.div`
