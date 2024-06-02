@@ -13,6 +13,15 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
   const isMediumScreen = useMediaQuery('(max-width:600px)');
   const isLargeScreen = useMediaQuery('(min-width: 901px)');
 
+  const itemWidth = isSmallScreen ? '100%' : isMediumScreen ? '50%' : 'calc(100% / 3)'; // Adjust width based on screen size
+  // Ajustar o layout dos componentes
+  const gridTemplateColumns = isSmallScreen ? '1fr 1fr' : isMediumScreen ? '1fr' : '1fr 1fr';
+
+  const fontSize = isSmallScreen ? '10px' : isMediumScreen ? '12px' : 'inherit'; // Adjust font size based on screen size
+  // Reduzir o preenchimento e a margem
+  const paddingSize = isSmallScreen ? '10px' : isMediumScreen ? '20px' : '30px';
+  const marginSize = isSmallScreen ? '5px' : isMediumScreen ? '10px' : '15px';
+
   const splitDataIntoColumns = (data, columns) => {
     const result = [];
     const dataSize = data.length;
@@ -34,8 +43,8 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
   return (
     <Box
       sx={{
-        marginTop: '20px',
-        padding: '5px',
+        marginTop: marginSize,
+        padding: paddingSize,
         borderRadius: '8px',
       }}
     >
@@ -44,7 +53,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
         sx={{
           textAlign: 'center',
           fontWeight: 'bold',
-          marginBottom: '20px',
+          marginBottom: marginSize,
           color: selectedTheme.text_primary,
         }}
       >
@@ -52,59 +61,61 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
         splitDataIntoColumns(weatherData.dados.slice(startIndex, endIndex), isSmallScreen ? 1 : isMediumScreen ? 1 : isLargeScreen ? 2 : 2).map((columnData, columnIndex) => (
-          <List key={columnIndex} sx={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-around' }}>
-            {columnData.map((data, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: isSmallScreen ? '1fr' : isMediumScreen ? '1fr' : isLargeScreen ? 'repeat(2, 1fr)' : 'repeat(2, 1fr)',
-                  gap: '8px',
-                  padding: '20px',
-                  border: `1px solid ${({ theme }) => theme.nav}`,
-                  borderRadius: '8px',
-                  background: selectedTheme.BackgroundDados,
-                  marginBottom: '0px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                  maxWidth: '800px',
-                  color: selectedTheme.text_secondary,
-                  transition: 'all 0.5s ease-in-out',
-                  '&:hover': {
-                    backgroundColor: selectedTheme.card + 99,
-                    color: selectedTheme.text_primary,
-                    cursor: 'pointer',
-                    transform: 'scale(1.02)',
-                  },
-                }}
-              >
-                <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Data: 📅</Typography>
-                <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.data}</Typography>
-                {data.precipitacao && (
-                  <>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Precipitação: ☔</Typography>
-                    <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.precipitacao}</Typography>
-                  </>
-                )}
-                {data.temperatura_maxima && data.temperatura_minima && (
-                  <>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Máxima: 🔥</Typography>
-                    <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.temperatura_maxima}</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Temp. Mínima: ❄️</Typography>
-                    <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.temperatura_minima}</Typography>
-                  </>
-                )}
-                {data.umidade && data.velocidade_vento && (
-                  <>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Umidade: 💧</Typography>
-                    <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.umidade}</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', padding: '5px' }}>Vel. do Vento: 🌬️</Typography>
-                    <Typography variant="body2" sx={{ padding: '5px', borderRight: '1px solid gray' }}>{data.velocidade_vento}</Typography>
-                  </>
-                )}
-              </Box>
-            ))}
-          </List>
+          <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+          {weatherData.dados.slice(startIndex, endIndex).map((data, index) => (
+            <Box
+              key={index}
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: gridTemplateColumns,
+                gap: '8px',
+                padding: paddingSize,
+                border: `1px solid ${({ theme }) => theme.nav}`,
+                borderRadius: '8px',
+                background: selectedTheme.BackgroundDados,
+                marginBottom: marginSize,
+                width: itemWidth,
+                color: selectedTheme.text_secondary,
+                transition: 'all 0.5s ease-in-out',
+                '&:hover': {
+                  backgroundColor: selectedTheme.card + 99,
+                  color: selectedTheme.text_primary,
+                  cursor: 'pointer',
+                  transform: 'scale(1.02)',
+                },
+              }}
+            >
+              <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Data: 📅</Typography>
+              <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.data}</Typography>
+              {(!isSmallScreen || index < 3) && ( // Render only if not on small screen or if index is less than 3
+                <>
+                  {data.precipitacao && (
+                    <>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Precipitação: ☔</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.precipitacao}</Typography>
+                    </>
+                  )}
+                  {data.temperatura_maxima && data.temperatura_minima && (
+                    <>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Temp. Máxima: 🔥</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.temperatura_maxima}</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Temp. Mínima: ❄️</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.temperatura_minima}</Typography>
+                    </>
+                  )}
+                  {data.umidade && data.velocidade_vento && (
+                    <>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Umidade: 💧</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.umidade}</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Vel. do Vento: 🌬️</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.velocidade_vento}</Typography>
+                    </>
+                  )}
+                </>
+              )}
+            </Box>
+          ))}
+        </List>
         ))
       ) : (
         <Typography variant="body1">Nenhum dado meteorológico disponível.</Typography>
