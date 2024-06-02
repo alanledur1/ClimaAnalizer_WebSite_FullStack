@@ -6,12 +6,14 @@ import { darkTheme, lightTheme } from '../../utils/Themes.js';
 export const WeatherDataPagination = ({ weatherData, isDark }) => {
   const selectedTheme = isDark ? darkTheme : lightTheme;
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const isSmallScreen = useMediaQuery('(max-width:378px)');
   const isMediumScreen = useMediaQuery('(max-width:600px)');
   const isLargeScreen = useMediaQuery('(min-width: 901px)');
+
+  const itemsPerPage = isSmallScreen ? 2 : 10;
 
   const itemWidth = isSmallScreen ? '100%' : isMediumScreen ? '50%' : 'calc(100% / 3)'; // Adjust width based on screen size
   // Ajustar o layout dos componentes
@@ -60,7 +62,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
         Dados Meteorológicos
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
-        splitDataIntoColumns(weatherData.dados.slice(startIndex, endIndex), isSmallScreen ? 1 : isMediumScreen ? 1 : isLargeScreen ? 2 : 2).map((columnData, columnIndex) => (
+        splitDataIntoColumns(weatherData.dados.slice(startIndex, endIndex), isSmallScreen ? 2 : isMediumScreen ? 2 : isLargeScreen ? 2 : 2).map((columnData, columnIndex) => (
           <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
           {weatherData.dados.slice(startIndex, endIndex).map((data, index) => (
             <Box
