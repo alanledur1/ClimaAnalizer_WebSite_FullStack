@@ -15,7 +15,7 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
 
   const itemsPerPage = isSmallScreen ? 2 : 10;
 
-  const itemWidth = isSmallScreen ? '100%' : isMediumScreen ? '50%' : 'calc(100% / 3)'; // Adjust width based on screen size
+  const itemWidth = isSmallScreen ? '50%' : isMediumScreen ? '50%' : 'calc(100% / 2)'; // Adjust width based on screen size
   // Ajustar o layout dos componentes
   const gridTemplateColumns = isSmallScreen ? '1fr 1fr' : isMediumScreen ? '1fr' : '1fr 1fr';
 
