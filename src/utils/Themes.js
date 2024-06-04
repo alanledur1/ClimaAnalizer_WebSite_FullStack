@@ -1,3 +1,6 @@
+import ImgMedia1 from "../img/AdobeStock_672161121.jpeg";
+import ImgMedia2 from "../img/AdobeStock_602131811.jpeg";
+
 export const darkTheme = {
   bg: "#1C1C27",
   bgLight: "#1C1E27",
@@ -13,7 +16,8 @@ export const darkTheme = {
   shadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
   border: "#292929",
   BackgroundDados: 'linear-gradient(170deg, rgba(58, 56, 56, 0.623) 0%, rgb(31, 31, 31) 100%)',
-  border_modals: '2px solid #999'
+  border_modals: '2px solid #999',
+  backgroundImage: `url(${ImgMedia2})`,
 };
 export const lightTheme = {
   bg: "#8DE8F2",
@@ -28,5 +32,6 @@ export const lightTheme = {
   shadow: "5px 5px 10px #888888",
   border: "white",
   BackgroundDados: 'linear-gradient(170deg, rgba(255, 255, 255, 0.8) 0%, rgb(240, 240, 240) 100%)',
-  border_modals: '2px solid #ddd'
+  border_modals: '2px solid #ddd',
+  backgroundImage: `url(${ImgMedia1})`,
 };

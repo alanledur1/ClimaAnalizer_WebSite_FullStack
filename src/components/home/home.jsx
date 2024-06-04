@@ -1,10 +1,7 @@
-import React, { useState} from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import Typewriter from "typewriter-effect";
-import './home.css' 
-import { HomeCards } from '../cards/homeCards';
-import WeatherDataPagination from '../weatherTemp/WeatherDataPagination';
-import { WeatherDataPaginationCard2 } from '../weatherTemp/WeatherDataPaginationCard-2';
+
 
 const ContentHome = styled.div`
 display: flex;
@@ -12,9 +9,8 @@ justify-content: center;
 align-items: center;
 height: 100%;
 position: relative;
-top: 30px;
+top: 35px;
 `;
-
 const Content = styled.div`
   background-color: ${({ theme }) => theme.bg} opacity: 0.2;
   border-radius: 20px;
@@ -34,6 +30,18 @@ const Content = styled.div`
     gap: 8px;
     width: 300px;
   }
+  @media screen and (max-width: 900px) {
+    margin-bottom: 10px;
+    flex-direction: column;
+    padding: 16px;
+    margin-top: 30px;
+  }
+  @media screen and (max-width: 600px) {
+    margin-bottom: 10px;
+    flex-direction: column;
+    padding: 16px;
+    margin-top: 30px;
+  }
   @media screen and (max-width: 378px) {
     font-size: 16px;
     line-height: 28px;
@@ -44,21 +52,11 @@ const Content = styled.div`
   }
   
 `;
-
 const ColumnDetails = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
 `;
-
-const ColumnResults = styled.div`
-  display: flex;
-  width: 100%;
-  background-color: ${({ theme }) => theme.card+80};
-  border-radius: 20px;
-  margin-top: 32px;
-`;
-
 const TitleWrapper = styled.h1`
   color: ${({ theme }) => theme.text_primary};
   font-size: 36px;
@@ -90,21 +88,16 @@ const TitleWrapper = styled.h1`
     display: flex;
   }
 `;
-
-// Defina a animação para as letras
 const moveLetters = keyframes`
   0% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0); }
 `;
-
-// Crie um componente estilizado para cada letra
 const Letter = styled.span`
   display: inline-block;
   animation: ${moveLetters} 0.5s ease-in-out;
   animation-delay: ${({ delay }) => delay};
 `;
-
 const Title = () => (
   <TitleWrapper>
     {"Bem-vindo ao ClimaAnalizer".split("").map((char, index) => (
@@ -117,8 +110,6 @@ const Title = () => (
     ))}
   </TitleWrapper>
 );
-
-
 const TextLoop = styled.div`
     font-size: 20px;
     font-weight: 600px;
@@ -150,7 +141,6 @@ const TextLoop = styled.div`
       }
     }
 `;
-
 const Description = styled.div`
   display: flex;
   flex-direction: column;
@@ -202,7 +192,6 @@ const Description = styled.div`
   }
   
 `;
-
 const DescriptionBody = styled.p`
   color: ${({ theme }) => theme.text_primary+99};
   padding: 0 1.25rem;
@@ -212,7 +201,6 @@ const DescriptionBody = styled.p`
     transform: translateX(0.25rem)
   }
 `;
-
 const DescriptionGlow = styled.div`
 position: absolute;
 width: 20rem;
@@ -226,7 +214,6 @@ z-index: 3;
   opacity: 0.1;
 }
 `;
-
  const DescriptionBorderGlow = styled.div`
   position: absolute;
   width: 20rem;
@@ -240,20 +227,11 @@ z-index: 3;
     opacity: 0.1;
   }
  `;
-
-const CardContent = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 0px;
-`;
-
 const Span = styled.span`
     color: ${({ theme }) => theme.primary};
     font-weight: bolder;
     cursor: pointer;
 `;
-
 const DescriptionInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -303,7 +281,6 @@ const DescriptionInfo = styled.div`
   }
 
 `;
-
 const SubTitle = styled.h2`
   margin: 0;
   font-size: 22px;
@@ -313,58 +290,21 @@ const SubTitle = styled.h2`
 
   }
 `;
-
 const Paragraph = styled.p`
   margin: 5px 0;
 `;
-
 const CardList = styled.ul`
   list-style-type: none;
   padding: 0;
 `;
-
 const CardListItem = styled.li`
   margin-bottom: 10px;
 `;
-
-const BoxContent = styled.div`
-    width: 100%;
-    height: auto;
-    margin-top: 10px;
-    background-color: ${({ theme }) => theme.card+80};
-    border-radius: 20px;
-    padding: 20px;
-    cursor: pointer;
-    box-shadow: rgba(33, 60, 115, 0.15) 0px 4px 24px;
-    backdrop-filter: blur(6px);
-    border: 1px solid ${({ theme }) => theme.border};
-    @media screen and (max-width: 378px) {
-      font-size: 12px;
-      margin-bottom: 8px;
-      padding: 0px;
-      .static-text {
-        display: none;
-      }
-`;
-
 const StaticText = styled.div`
     display: flex;
 `;
 
-export const Home = ({ isDark, darkTheme, lightTheme }) => {
-  const [weatherDataFromApiTemp, setWeatherDataFromApiTemp] = useState(null);
-  const [weatherDataFromApiTempChuva, setWeatherDataFromApiTempChuva] = useState(null);
-
-  const handleSelectDataApiTemp = (selectedData) => {
-    setWeatherDataFromApiTemp(selectedData);
-    setWeatherDataFromApiTempChuva(null); // Limpa os dados do segundo card
-  };
-
-  const handleSelectDataApiTempChuva = (selectedData) => {
-    setWeatherDataFromApiTempChuva(selectedData);
-    setWeatherDataFromApiTemp(null); // Limpa os dados do primeiro card
-  };
-
+export const Home = () => {
   return (
     <ContentHome>
       <Content>
@@ -415,41 +355,7 @@ export const Home = ({ isDark, darkTheme, lightTheme }) => {
                 <Paragraph>Consulta de Temperatura média de um determinado mês em um período dos últimos 20 anos (2003 a 2023):</Paragraph>
               </DescriptionBody>
             </DescriptionInfo>
-          <CardContent>
-            <HomeCards
-                onSelectDataApiTemp={handleSelectDataApiTemp}
-                onSelectDataApiTempChuva={handleSelectDataApiTempChuva}
-                isDark={isDark}
-                darkTheme={darkTheme}
-                lightTheme={lightTheme}
-                theme={isDark ? darkTheme : lightTheme}
-              />
-          </CardContent>
         </ColumnDetails>
-        <ColumnResults>
-          {weatherDataFromApiTemp && (
-            <BoxContent>
-              <WeatherDataPagination
-                weatherData={weatherDataFromApiTemp}
-                isDark={isDark}
-                darkTheme={darkTheme}
-                lightTheme={lightTheme}
-                theme={isDark ? darkTheme : lightTheme}
-              />
-            </BoxContent>
-          )}
-          {weatherDataFromApiTempChuva && (
-            <BoxContent>
-              <WeatherDataPaginationCard2
-                weatherData={weatherDataFromApiTempChuva}
-                isDark={isDark}
-                darkTheme={darkTheme}
-                lightTheme={lightTheme}
-                theme={isDark ? darkTheme : lightTheme}
-              />
-            </BoxContent>
-          )}
-        </ColumnResults>
       </Content>
     </ContentHome>
   );

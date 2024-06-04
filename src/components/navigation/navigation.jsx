@@ -25,7 +25,12 @@ const Nav = styled.div`
   @media screen and (max-width: 960px) {
     transition: 0.8s all ease;
   }
-  @media screen and (max-width: 378px) {
+  @media screen and (max-width: 900px) {
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 10px;
+  }
+  @media screen and (max-width: 600px) {
     font-size: 16px;
     line-height: 28px;
     margin-bottom: 10px;
@@ -46,7 +51,11 @@ const NavContainer = styled.div`
   width: 100%;
   padding: 0 24px;
   max-width: 1200px;
-  @media screen and (max-width: 378px) {
+  @media screen and (max-width: 900px) {
+    font-size: 16px;
+    line-height: 28px;
+  }
+  @media screen and (max-width: 600px) {
     font-size: 10px;
     line-height: 28px;
   }
@@ -62,7 +71,7 @@ const NavLogo =styled.div`
   display: flex;
   justify-self: flex-start;
   cursor: pointer;
-  position: relative;
+  position: static;
   right: 20%;
   text-decoration: none;
   align-items: center;
@@ -119,6 +128,12 @@ const ButtonContainer = styled.div`
    width: 80%;
    height: 100%;
    padding: 0 6px;
+   @media screen and (max-width: 900px) {
+    justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+    display: inline-flex;
+   }
    @media screen and (max-width: 600px) {
     justify-content: center;
     align-items: center;
@@ -282,6 +297,9 @@ const LogoImage = styled.div`
   height: 80px;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 900px) {
+
+  }
   @media screen and (max-width: 600px) {
     display: none;
   }
@@ -299,6 +317,11 @@ const TitleLogo = styled.div`
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   display: block;
+  @media screen and (max-width: 900px) {
+    position: relative;
+    left: 0px;
+    font-size: 18px;
+  }
   @media screen and (max-width: 600px) {
     position: relative;
     left: 70px;
