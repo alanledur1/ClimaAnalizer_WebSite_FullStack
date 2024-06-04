@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'Montserrat', sans-serif;
     background-color: ${({ theme }) => theme.nav};
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 98%, 0 100%);
+
   }
 `;
 
@@ -34,7 +34,6 @@ const AppContainer = styled.div`
     rgba(0, 70, 209, 0) 50%,
     rgba(0, 70, 209, 0.15) 90%
   );
-
 `;
 
 const Wrapper = styled.div`
@@ -49,10 +48,14 @@ const Wrapper = styled.div`
     rgba(0, 70, 209, 0) 50%,
     rgba(0, 70, 209, 0.15) 90%
   );
-width: 100%;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
 
 clip-path: circle(65% at center);
-
+  @media (max-width: 378px) {
+    height: 100%;
+  }
 `;
 
 

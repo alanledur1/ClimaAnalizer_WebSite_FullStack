@@ -3,36 +3,42 @@ import { Typography, List, Button, Box, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import { darkTheme, lightTheme } from '../../utils/Themes.js';
 
-export const WeatherDataPagination = ({ weatherData, isDark }) => {
+const WeatherDataPagination = ({ weatherData, isDark }) => {
   const selectedTheme = isDark ? darkTheme : lightTheme;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
   const isSmallScreen = useMediaQuery('(max-width:378px)');
   const isMediumScreen = useMediaQuery('(max-width:600px)');
-  const isLargeScreen = useMediaQuery('(min-width: 901px)');
+  const isLargeScreen = useMediaQuery('(max-width:900px)');
+  let itemsPerPage;
 
-  const itemsPerPage = useMediaQuery('(max-width:378px)') ? 2 : 10;
+  if (isSmallScreen) {
+    itemsPerPage = 4; // Se for uma tela pequena (378px), mostrar 4 itens por pesquisa
+  } else if (isMediumScreen || isLargeScreen) {
+    itemsPerPage = 6; // Se for uma tela média (600px) ou grande (900px), mostrar 6 itens por pesquisa
+  } else {
+    itemsPerPage = 12; // Outras telas mostrarão 10 itens por pesquisa
+  }
 
-  const itemWidth = '50%'; 
-  // Ajustar o layout dos componentes
-  const gridTemplateColumns = '1fr 1fr';
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
-  const fontSize = isSmallScreen ? '10px' : isMediumScreen ? '12px' : 'inherit'; // Adjust font size based on screen size
-  // Reduzir o preenchimento e a margem
-  const paddingSize = isSmallScreen ? '10px' : isMediumScreen ? '20px' : '30px';
-  const marginSize = isSmallScreen ? '5px' : isMediumScreen ? '10px' : '15px';
+  const gridTemplateColumns = '1fr 1fr'; // 2 columns on all screen sizes
 
-  const splitDataIntoColumns = (data, columns) => {
-    const result = [];
-    const dataSize = data.length;
-    const rows = Math.ceil(dataSize / columns);
-    for (let i = 0; i < rows; i++) {
-      result.push(data.slice(i * columns, (i + 1) * columns));
-    }
-    return result;
-  };
+   const marginSize = isSmallScreen ? '5px' :
+  isMediumScreen ? '10px' :
+  isLargeScreen ? '15px' :
+  '20px'; // Ajustar margem com base no tamanho da tela
+
+  const paddingSize = isSmallScreen ? '4px' :
+    isMediumScreen ? '12px' :
+    isLargeScreen ? '16px' :
+    '16px'; // Ajustar padding com base no tamanho da tela
+  const fontSize = isSmallScreen ? '10px' :
+  isMediumScreen ? '12px' :
+  isLargeScreen ? '14px' :
+  '16px'; // Ajustar tamanho da fonte com base no tamanho da tela 
+
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -45,72 +51,72 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
   return (
     <Box
       sx={{
-        marginTop: marginSize,
-        padding: paddingSize,
-        borderRadius: '8px',
+        marginTop: '20px',  
+        padding: '5px',
+        borderRadius: '8px' 
       }}
     >
       <Typography
         variant="h6"
         sx={{
-          textAlign: 'center',
-          fontWeight: 'bold',
-          marginBottom: marginSize,
-          color: selectedTheme.text_primary,
+          textAlign: 'center', 
+          fontWeight: 'bold', 
+          marginBottom: '20px', 
+          color: selectedTheme.text_primary
         }}
       >
         Dados Meteorológicos
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
-        splitDataIntoColumns(weatherData.dados.slice(startIndex, endIndex), isSmallScreen ? 2 : isMediumScreen ? 2 : isLargeScreen ? 2 : 2).map((columnData, columnIndex) => (
-          <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-          {weatherData.dados.slice(startIndex, endIndex).map((data, index) => (
+        <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+          {weatherData.dados.slice(startIndex, endIndex).map((data, index) =>  (
             <Box
               key={index}
               sx={{
                 display: 'grid',
                 gridTemplateColumns: gridTemplateColumns,
-                gap: '8px',
-                padding: paddingSize,
+                gap: '2px',
                 border: `1px solid ${({ theme }) => theme.nav}`,
                 borderRadius: '8px',
                 background: selectedTheme.BackgroundDados,
                 marginBottom: marginSize,
-                width: itemWidth,
+                marginRight: '1px',
+                width: '32%',
                 color: selectedTheme.text_secondary,
                 transition: 'all 0.5s ease-in-out',
-                '&:hover': {
-                  backgroundColor: selectedTheme.card + 99,
-                  color: selectedTheme.text_primary,
-                  cursor: 'pointer',
-                  transform: 'scale(1.02)',
+                '@media (max-width: 378px)': {
+                  // Estilos específicos para telas de até 378px
+                  padding: '0px', // exemplo de alteração
+                  width: '49%', // exemplo de alteração
+                  fontSize: '12px', // exemplo de alteração
+                  gap: '0px', 
                 },
               }}
             >
-              <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Data: 📅</Typography>
-              <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.data}</Typography>
-              {(!isSmallScreen || index < 3) && ( // Render only if not on small screen or if index is less than 3
+              <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize,'@media (max-width: 378px)': {width:'96px' }}}>Data: 📅</Typography>
+              <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize, '@media (max-width: 378px)': {border:'none' }}}>{data.data}</Typography>
+              {(!isSmallScreen || index < 4) && (
                 <>
                   {data.precipitacao && (
                     <>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Precipitação: ☔</Typography>
-                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.precipitacao}</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize,'@media (max-width: 378px)': {border:'none' }}}>{data.precipitacao}</Typography>
                     </>
                   )}
                   {data.temperatura_maxima && data.temperatura_minima && (
                     <>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Temp. Máxima: 🔥</Typography>
-                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.temperatura_maxima}</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize,'@media (max-width: 378px)': {border:'none' }}}>{data.temperatura_maxima}</Typography>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Temp. Mínima: ❄️</Typography>
-                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.temperatura_minima}</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize,'@media (max-width: 378px)': {border:'none' }}}>{data.temperatura_minima}</Typography>
                     </>
                   )}
                   {data.umidade && data.velocidade_vento && (
                     <>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Umidade: 💧</Typography>
-                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.umidade}</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize,'@media (max-width: 378px)': {border:'none' }}}>{data.umidade}</Typography>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', padding: paddingSize, fontSize }}>Vel. do Vento: 🌬️</Typography>
-                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize }}>{data.velocidade_vento}</Typography>
+                      <Typography variant="body2" sx={{ padding: paddingSize, borderRight: '1px solid gray', fontSize,'@media (max-width: 378px)': {border:'none' }}}>{data.velocidade_vento}</Typography>
                     </>
                   )}
                 </>
@@ -118,7 +124,6 @@ export const WeatherDataPagination = ({ weatherData, isDark }) => {
             </Box>
           ))}
         </List>
-        ))
       ) : (
         <Typography variant="body1">Nenhum dado meteorológico disponível.</Typography>
       )}
@@ -134,3 +139,5 @@ WeatherDataPagination.propTypes = {
   weatherData: PropTypes.object.isRequired,
   isDark: PropTypes.bool.isRequired,
 };
+
+export default WeatherDataPagination;

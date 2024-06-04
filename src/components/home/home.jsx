@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState} from 'react';
+import styled, { keyframes } from 'styled-components';
 import Typewriter from "typewriter-effect";
 import './home.css' 
 import { HomeCards } from '../cards/homeCards';
-import { WeatherDataPagination } from '../weatherTemp/WeatherDataPagination';
+import WeatherDataPagination from '../weatherTemp/WeatherDataPagination';
 import { WeatherDataPaginationCard2 } from '../weatherTemp/WeatherDataPaginationCard-2';
 
 const ContentHome = styled.div`
@@ -11,10 +11,8 @@ display: flex;
 justify-content: center;
 align-items: center;
 height: 100%;
-@media screen and (max-width: 378px) {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
+position: relative;
+top: 30px;
 `;
 
 const Content = styled.div`
@@ -30,7 +28,7 @@ const Content = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   padding: 35px;
-  max-width: 900px;
+  max-width: 1200px;
   @media (max-width: 748px;) {
     padding: 10px;
     gap: 8px;
@@ -41,11 +39,27 @@ const Content = styled.div`
     line-height: 28px;
     margin-bottom: 10px;
     flex-direction: column;
+    padding: 16px;
+    margin-top: 30px;
   }
   
 `;
 
-const Title = styled.h1`
+const ColumnDetails = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+`;
+
+const ColumnResults = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: ${({ theme }) => theme.card+80};
+  border-radius: 20px;
+  margin-top: 32px;
+`;
+
+const TitleWrapper = styled.h1`
   color: ${({ theme }) => theme.text_primary};
   font-size: 36px;
   padding: 6px;
@@ -53,9 +67,13 @@ const Title = styled.h1`
   font-weight: 900;
   border-radius: 5px;
   width: 100%;
-  @media (max-width: 900px;) {
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 900px) {
     font-size: 22px;
   }
+
   @media screen and (max-width: 600px) {
     font-size: 16px;
     margin-bottom: 10px;
@@ -63,6 +81,7 @@ const Title = styled.h1`
     justify-content: center;
     display: flex;
   }
+
   @media screen and (max-width: 378px) {
     font-size: 16px;
     margin-bottom: 10px;
@@ -71,6 +90,34 @@ const Title = styled.h1`
     display: flex;
   }
 `;
+
+// Defina a animação para as letras
+const moveLetters = keyframes`
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+`;
+
+// Crie um componente estilizado para cada letra
+const Letter = styled.span`
+  display: inline-block;
+  animation: ${moveLetters} 0.5s ease-in-out;
+  animation-delay: ${({ delay }) => delay};
+`;
+
+const Title = () => (
+  <TitleWrapper>
+    {"Bem-vindo ao ClimaAnalizer".split("").map((char, index) => (
+      <React.Fragment key={index}>
+        <Letter delay={`${index * 0.1}s`}>
+          {char}
+        </Letter>
+        {char === " " && <span>&nbsp;</span>} {/* Adiciona um espaço entre as palavras */}
+      </React.Fragment>
+    ))}
+  </TitleWrapper>
+);
+
 
 const TextLoop = styled.div`
     font-size: 20px;
@@ -81,8 +128,6 @@ const TextLoop = styled.div`
     display: flex;
     padding: 6px;
     margin-bottom: 30px;
-    
-
     @media screen and (max-width: 960px) {
       text-align: center;
     }
@@ -209,6 +254,79 @@ const Span = styled.span`
     cursor: pointer;
 `;
 
+const DescriptionInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  position: relative;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 4rem; 
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  padding: 0.65rem 0.25rem 0.4rem 1.25rem;
+  background: #29292c;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  --gradient: linear-gradient(to right top, #00c6fb, #005bea, #00c6fb, #005bea);
+  --color: #32a6ff;
+  &:before {
+    position: absolute;
+    content: "";
+    inset: 0.0625rem;
+    border-radius: 0.9375rem;
+    background: ${({ theme }) => theme.card_light};
+    z-index: 2;
+  }
+  &:after {
+    position: absolute;
+    content: "";
+    width: 0.25rem;
+    inset: 0.65rem auto 0.65rem 0.5rem;
+    border-radius: 0.125rem;
+    background: var(--gradient);
+    transition: transform 300ms ease;
+    z-index: 4;
+  }
+  &:hover:after {
+    transform: translateX(0.15rem)
+  }
+  @media screen and (max-width: 600px) {
+    font-size: 15px;
+    line-height: 20px;
+    margin-bottom: 15px;
+  }
+  @media screen and (max-width: 378px) {
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 15px;
+  }
+
+`;
+
+const SubTitle = styled.h2`
+  margin: 0;
+  font-size: 22px;
+  color: var(--color);
+  @media screen and (max-width: 378px) {
+    font-size: 14px;
+
+  }
+`;
+
+const Paragraph = styled.p`
+  margin: 5px 0;
+`;
+
+const CardList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const CardListItem = styled.li`
+  margin-bottom: 10px;
+`;
+
 const BoxContent = styled.div`
     width: 100%;
     height: auto;
@@ -216,15 +334,14 @@ const BoxContent = styled.div`
     background-color: ${({ theme }) => theme.card+80};
     border-radius: 20px;
     padding: 20px;
-    transition: transform 0.3s ease;
     cursor: pointer;
     box-shadow: rgba(33, 60, 115, 0.15) 0px 4px 24px;
     backdrop-filter: blur(6px);
     border: 1px solid ${({ theme }) => theme.border};
     @media screen and (max-width: 378px) {
       font-size: 12px;
-      margin-bottom: 10px;
-      justify-content: center;
+      margin-bottom: 8px;
+      padding: 0px;
       .static-text {
         display: none;
       }
@@ -237,7 +354,6 @@ const StaticText = styled.div`
 export const Home = ({ isDark, darkTheme, lightTheme }) => {
   const [weatherDataFromApiTemp, setWeatherDataFromApiTemp] = useState(null);
   const [weatherDataFromApiTempChuva, setWeatherDataFromApiTempChuva] = useState(null);
-
 
   const handleSelectDataApiTemp = (selectedData) => {
     setWeatherDataFromApiTemp(selectedData);
@@ -252,56 +368,88 @@ export const Home = ({ isDark, darkTheme, lightTheme }) => {
   return (
     <ContentHome>
       <Content>
-        <Title>Bem-vindo ao ClimaAnalizer</Title>
-        <TextLoop>
-           <StaticText className='static-text'>Analise os dados meteorológicos:</StaticText> 
-          <Span>
-            <Typewriter 
-            options={{
-              strings:["precipitação (mm)", "temperatura mínima e máxima", "horas de sol", "umidade relativa", "velocidade do vento"],
-              autoStart: true,
-              loop: true,
-            }}
-            />
-          </Span>
-        </TextLoop>
-        <Description>
-          <DescriptionGlow></DescriptionGlow>
-          <DescriptionBorderGlow></DescriptionBorderGlow>
-          <DescriptionBody>Explore o histórico climático detalhado de Porto Alegre de 1996 a 2016 e descubra padrões climáticos ao longo das últimas décadas. Em breve, estaremos adicionando informações sobre outras localidades para oferecer uma visão abrangente do clima em diferentes regiões. Analise as tendências de temperatura, precipitação e outros fatores climáticos para entender melhor o clima da sua região.</DescriptionBody>
-        </Description>
-        <CardContent>
-        <HomeCards 
-            onSelectDataApiTemp={handleSelectDataApiTemp} 
-            onSelectDataApiTempChuva={handleSelectDataApiTempChuva}             
-            isDark={isDark} 
-            darkTheme={darkTheme} 
-            lightTheme={lightTheme} 
-            theme={isDark ? darkTheme : lightTheme} 
-          />
-        </CardContent>
-        {weatherDataFromApiTemp && (
-          <BoxContent>
-            <WeatherDataPagination 
-              weatherData={weatherDataFromApiTemp} 
-              isDark={isDark} 
-              darkTheme={darkTheme} 
-              lightTheme={lightTheme} 
-              theme={isDark ? darkTheme : lightTheme} 
-            />
-          </BoxContent>
-        )}
-        {weatherDataFromApiTempChuva && (
-          <BoxContent>
-            <WeatherDataPaginationCard2 
-              weatherData={weatherDataFromApiTempChuva} 
-              isDark={isDark} 
-              darkTheme={darkTheme} 
-              lightTheme={lightTheme} 
-              theme={isDark ? darkTheme : lightTheme} 
-            />
-          </BoxContent>
-        )}
+      <Title>Bem-vindo ao ClimaAnalizer</Title>
+        <ColumnDetails>
+          <TextLoop>
+             <StaticText className='static-text'>Analise os dados meteorológicos:</StaticText>
+            <Span>
+              <Typewriter
+              options={{
+                strings:["precipitação (mm)", "temperatura mínima e máxima", "horas de sol", "umidade relativa", "velocidade do vento"],
+                autoStart: true,
+                loop: true,
+              }}
+              />
+            </Span>
+          </TextLoop>
+            <Description>
+              <DescriptionGlow></DescriptionGlow>
+              <DescriptionBorderGlow></DescriptionBorderGlow>
+              <DescriptionBody>Explore o histórico climático detalhado de Porto Alegre de 1961 a 2023 e descubra padrões climáticos ao longo das últimas décadas. Em breve, estaremos adicionando informações sobre outras localidades para oferecer uma visão abrangente do clima em diferentes regiões. Analise as tendências de temperatura, precipitação e outros fatores climáticos para entender melhor o clima da sua região.</DescriptionBody>
+            </Description>
+            <DescriptionInfo>
+              <DescriptionBorderGlow />
+              <DescriptionBody>
+                <Paragraph>Selecione um card, insira uma data desejada e a consulta será exibida logo abaixo dos cards.</Paragraph>
+              </DescriptionBody>
+              <DescriptionBody>
+                <SubTitle>Primeiro Card:</SubTitle>
+                <Paragraph>Você pode especificar uma data entre 01/01/1961 e 31/12/2023 para obter todos os dados meteorológicos disponíveis para essa data.</Paragraph>
+              </DescriptionBody>
+              <DescriptionBody>
+              </DescriptionBody>
+              <DescriptionBody>
+                <SubTitle>Segundo Card:</SubTitle>
+                <Paragraph>Para consultar os meses menos e mais chuvosos, você pode escolher entre dois tipos de períodos:</Paragraph>
+                <CardList>
+                  <CardListItem>
+                    <strong>Período de até 1 ano:</strong> Especifique o intervalo de datas (01/01/ano inicial até 31/12/ano igual ao inicial) e receba o resultado com o dia e o mês menos e mais chuvosos dentro desse período.
+                  </CardListItem>
+                  <CardListItem>
+                    <strong>Período mais longo:</strong> Especifique apenas o mês e o intervalo de anos desejado para ver os dados meteorológicos desse mês em específico ao longo dos anos selecionados. Por exemplo, você pode selecionar algo como " 01 de junho de 2010 a 01 de junho de 2020 - 01/06/2010 - 01/06/2020."
+                  </CardListItem>
+                </CardList>
+              </DescriptionBody>
+              <DescriptionBody>
+              <SubTitle>Terceiro Card:</SubTitle>
+                <Paragraph>Consulta de Temperatura média de um determinado mês em um período dos últimos 20 anos (2003 a 2023):</Paragraph>
+              </DescriptionBody>
+            </DescriptionInfo>
+          <CardContent>
+            <HomeCards
+                onSelectDataApiTemp={handleSelectDataApiTemp}
+                onSelectDataApiTempChuva={handleSelectDataApiTempChuva}
+                isDark={isDark}
+                darkTheme={darkTheme}
+                lightTheme={lightTheme}
+                theme={isDark ? darkTheme : lightTheme}
+              />
+          </CardContent>
+        </ColumnDetails>
+        <ColumnResults>
+          {weatherDataFromApiTemp && (
+            <BoxContent>
+              <WeatherDataPagination
+                weatherData={weatherDataFromApiTemp}
+                isDark={isDark}
+                darkTheme={darkTheme}
+                lightTheme={lightTheme}
+                theme={isDark ? darkTheme : lightTheme}
+              />
+            </BoxContent>
+          )}
+          {weatherDataFromApiTempChuva && (
+            <BoxContent>
+              <WeatherDataPaginationCard2
+                weatherData={weatherDataFromApiTempChuva}
+                isDark={isDark}
+                darkTheme={darkTheme}
+                lightTheme={lightTheme}
+                theme={isDark ? darkTheme : lightTheme}
+              />
+            </BoxContent>
+          )}
+        </ColumnResults>
       </Content>
     </ContentHome>
   );
