@@ -6,6 +6,8 @@ import { Home } from './components/home/home';
 import { darkTheme, lightTheme } from './utils/Themes';
 import React, { useState } from 'react';
 import { Footer } from './components/footer/footer';
+import { Sobre } from './components/sobre/sobre';
+import Search from './components/search/search';
 
 
 // Estilos globais
@@ -51,12 +53,21 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 10px;
+  clip-path: circle(64% at center);
+  position: relative;
+  z-index: 1;
 
-clip-path: circle(65% at center);
+  @media (max-width: 900px) {
+    clip-path: circle(72% at center); 
+  }
+  @media (max-width: 600px) {
+    clip-path: circle(50% at center);
+  }
   @media (max-width: 378px) {
-    height: 100%;
+    clip-path: circle(40% at center);
   }
 `;
+
 
 
 function App() {
@@ -71,9 +82,12 @@ function App() {
           <Navigation isDark={isDark} setIsDark={setIsDark} />
           <Wrapper>
             <Home isDark={isDark} darkTheme={darkTheme} lightTheme={lightTheme} />
-            <div style={{height: '100vh'}}></div>
+            <Search isDark={isDark} darkTheme={darkTheme} lightTheme={lightTheme} />
+            <Sobre isDark={isDark} lightTheme={lightTheme} />
           </Wrapper>
+
           <Footer />
+
       </AppContainer>
       </Router>
     </ThemeProvider>
