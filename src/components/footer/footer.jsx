@@ -48,7 +48,7 @@ export const Footer = () => {
     <FooterContainer>
         <Content>
             <Description>Clima<Span>Analizer</Span>© 2024 |</Description>
-            <Description>Todos os direitos reservado</Description>
+            <Description>Todos os direitos reservados</Description>
         </Content>
     </FooterContainer>
   )

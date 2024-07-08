@@ -69,7 +69,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
           onSelectData(responseAll.data);
           break;
         case '2':
-          const responsePrecip = await axios.post('https://api.climaanalizer.cloud/api/api/mes-dia-chuvoso', {
+          const responsePrecip = await axios.post('https://api.climaanalizer.cloud/api/mes-dia-chuvoso', {
             tipo_dados:  'mes_dia_mais_chuvoso',
             data_inicial: startDate,
             data_final: endDate

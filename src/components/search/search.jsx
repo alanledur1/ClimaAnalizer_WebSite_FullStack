@@ -33,15 +33,14 @@ const Title = styled.h1`
     margin-bottom: 10px;
     margin-top: 10px;
     justify-content: center;
-    display: flex;
   }
 
   @media screen and (max-width: 378px) {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 10px;
     margin-top: 0px;
     justify-content: center;
-    display: flex;
+
   }
 
   /* Definição da animação */
@@ -116,10 +115,10 @@ const Content = styled.div`
     margin-top: 30px;
   }
   @media screen and (max-width: 600px) {
-    margin-bottom: 10px;
     flex-direction: column;
     padding: 16px;
-    margin-top: 30px;
+    margin: 0;
+
   }
   @media screen and (max-width: 378px) {
     font-size: 16px;
@@ -129,6 +128,7 @@ const Content = styled.div`
     padding: 16px;
     margin-top: 30px;
   }
+
   
 `;
 
@@ -140,6 +140,9 @@ const ContainerCards = styled.div`
   height: auto;
   position: relative;
   top: 30px;
+    @media screen and (max-width: 768px) {
+  flex-wrap: wrap;
+  }
 `;
 const CardContent = styled.div`
     display: grid;

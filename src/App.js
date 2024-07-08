@@ -60,11 +60,8 @@ const Wrapper = styled.div`
   @media (max-width: 900px) {
     clip-path: circle(72% at center); 
   }
-  @media (max-width: 600px) {
-    clip-path: circle(50% at center);
-  }
-  @media (max-width: 378px) {
-    clip-path: circle(40% at center);
+  @media (max-width: 768px) {
+    clip-path: circle(100% at center);
   }
 `;
 

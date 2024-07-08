@@ -5,21 +5,32 @@ const ContentSobre = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh; 
   position: relative;
   top: 30px;
-  margin: 72px auto;
+  margin: 72px auto; 
+  @media (max-width: 768px) {
+    height: auto; 
+    top: 14px;
+    margin: 30px auto;
+  }
 `;
 
 const Content = styled.div`
   background-color: ${({ theme }) => theme.bg};
   border-radius: 20px;
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
   padding: 35px;
   max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+  justify-content: space-between; /* distribui os ColumnDetails uniformemente */
+  @media (max-width: 768px) {
+    padding: 20px; 
+    max-width: 90%; 
+    justify-content: center; 
+  }
 `;
 
 const Title = styled.h1`
@@ -31,23 +42,38 @@ const Title = styled.h1`
   border-radius: 5px;
   width: 100%;
   text-align: center;
+  @media (max-width: 600px) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 378px) {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
 `;
 
 const ColumnDetails = styled.div`
   flex: 1;
-  min-width: 300px;
-  margin: 15px;
+  min-width: 280px; 
   padding: 20px;
   background-color: ${({ theme }) => theme.card};
   border-radius: 10px;
+  @media (max-width: 768px) {
+    min-width: 100%;
+  }
 `;
 
 const DescriptionBody = styled.p`
   color: ${({ theme }) => theme.text_primary};
   font-size: 18px;
   line-height: 1.5;
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
+  @media (max-width: 378px) {
+    font-size: 14px;
+  }
 `;
-
 export const Sobre = ({ isDark, darkTheme, lightTheme }) => {
 return (
     <ContentSobre>
