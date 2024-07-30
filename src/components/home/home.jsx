@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Typewriter from "typewriter-effect";
-
+import ApiResultClima from '../../services/apiCity';
+import { WeatherDetails } from '../weatherTemp/WeatherDetails';
+import WeatherResult from '../weatherTemp/WeatherResult';
+import { darkTheme, lightTheme } from '../../utils/Themes';
 
 const ContentHome = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-height: 100%;
+height: 100vh;
 position: relative;
 top: 35px;
 `;
@@ -232,7 +235,7 @@ const Span = styled.span`
     font-weight: bolder;
     cursor: pointer;
 `;
-const DescriptionInfo = styled.div`
+/* const DescriptionInfo = styled.div`
   display: flex;
   flex-direction: column;
   isolation: isolate;
@@ -299,14 +302,57 @@ const CardList = styled.ul`
 `;
 const CardListItem = styled.li`
   margin-bottom: 10px;
-`;
+`; */
 const StaticText = styled.div`
     display: flex;
 `;
+const DescriptionClima = styled.div`
+    border-radius: 10px;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    `;
 
-export const Home = () => {
+const SearchCity = styled.div`
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DescriptionCity = styled.div`
+  width: 50%;
+  height: 80%;
+  display: flex;
+  flex-direction: column; /* Alinha os itens verticalmente */
+  align-items: center; /* Centraliza o conteúdo horizontalmente */
+  padding: 10px; /* Adiciona um pouco de preenchimento */
+  box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
+`;
+
+const ClimateDetails = styled.div`
+  width: 50%;
+  height: 80%;
+  display: flex;
+  flex-direction: column; /* Alinha os itens verticalmente */
+  align-items: center; /* Centraliza o conteúdo horizontalmente */
+  padding: 10px; /* Adiciona um pouco de preenchimento */
+  box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
+`;
+
+export const Home = ({ isDark }) => {
+  const [WeatherData, setWeatherData] = useState(null);
+  
+  const handleDataFeath = (data) => {
+    setWeatherData(data);
+  };
+
+
+
   return (
-    <ContentHome>
+    <ContentHome id='inicio'>
       <Content>
       <Title>Bem-vindo ao ClimaAnalizer</Title>
         <ColumnDetails>
@@ -327,7 +373,7 @@ export const Home = () => {
               <DescriptionBorderGlow></DescriptionBorderGlow>
               <DescriptionBody>Explore o histórico climático detalhado de Porto Alegre de 1961 a 2023 e descubra padrões climáticos ao longo das últimas décadas. Em breve, estaremos adicionando informações sobre outras localidades para oferecer uma visão abrangente do clima em diferentes regiões. Analise as tendências de temperatura, precipitação e outros fatores climáticos para entender melhor o clima da sua região.</DescriptionBody>
             </Description>
-            <DescriptionInfo>
+            {/*<DescriptionInfo>
               <DescriptionBorderGlow />
               <DescriptionBody>
                 <Paragraph>Selecione um card, insira uma data desejada e a consulta será exibida logo abaixo dos cards.</Paragraph>
@@ -354,7 +400,18 @@ export const Home = () => {
               <SubTitle>Terceiro Card:</SubTitle>
                 <Paragraph>Consulta de Temperatura média de um determinado mês em um período dos últimos 20 anos (2003 a 2023):</Paragraph>
               </DescriptionBody>
-            </DescriptionInfo>
+            </DescriptionInfo>*/}
+            <DescriptionClima>
+              <SearchCity>
+                <ApiResultClima onDataFetch={handleDataFeath}/>
+              </SearchCity>
+              <DescriptionCity>
+                {WeatherData && <WeatherResult data={WeatherData} isDark={isDark} darkTheme={darkTheme} lightTheme={lightTheme} />}
+              </DescriptionCity>
+              <ClimateDetails>
+                {WeatherData && <WeatherDetails data={WeatherData} isDark={isDark} darkTheme={darkTheme} lightTheme={lightTheme}/>}
+              </ClimateDetails>
+            </DescriptionClima>
         </ColumnDetails>
       </Content>
     </ContentHome>
