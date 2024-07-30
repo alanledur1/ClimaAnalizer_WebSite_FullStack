@@ -76,7 +76,7 @@ const DescriptionBody = styled.p`
 `;
 export const Sobre = ({ isDark, darkTheme, lightTheme }) => {
 return (
-    <ContentSobre>
+    <ContentSobre id='sobre'>
         <Content>
         <Title>Sobre</Title>
         <ColumnDetails>
