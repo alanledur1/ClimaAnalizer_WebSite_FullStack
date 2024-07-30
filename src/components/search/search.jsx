@@ -58,8 +58,8 @@ const Title = styled.h1`
 `;
 const Circle = styled.div`
   position: absolute;
-  width: 150px;
-  height: 80px;
+  width: 200px;
+  height: 90px;
   background-color: ${({ theme }) => theme.card}; 
   border-radius: 50%;
   opacity: 0.5;
@@ -205,7 +205,7 @@ const Search = ({ isDark, darkTheme, lightTheme}) => {
             <ContainerCards>
                 <ObjectTitle>
                     <Circle /> {/* Coloca o círculo aqui */}
-                    <Title>Pesquisar</Title>
+                    <Title>Selecione um Card:</Title>
                 </ObjectTitle>
                 <CardContent>
                     <HomeCards
