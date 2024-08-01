@@ -54,7 +54,7 @@ function ApiTemp({ onSelectData, isDark }) {
         case '2':
         case '3':
         case '4':
-          const responseData = await axios.post('https://api.climaanalizer.cloud/api/visualizar-dados', {
+          const responseData = await axios.post('https://test-4yjo5ayola-rj.a.run.app/api/visualizar-dados', {
             tipo_dados: option === '1' ? 'todos_os_dados' : option === '2' ? 'precipitacao' : option === '3' ? 'temperatura' : 'umidade_velocidade',
             data_inicial: startDate,
             data_final: endDate

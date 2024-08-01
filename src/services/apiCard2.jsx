@@ -60,7 +60,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
     try {
       switch (option) {
         case '1':
-          const responseAll = await axios.post('https://api.climaanalizer.cloud/api/mes-dia-chuvoso', {
+          const responseAll = await axios.post('https://test-4yjo5ayola-rj.a.run.app/api/mes-dia-chuvoso', {
             tipo_dados: 'todos_os_dados',
             intervalo_tempo: intervaloTempo,
             data_inicial: startDate,
@@ -69,7 +69,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
           onSelectData(responseAll.data);
           break;
         case '2':
-          const responsePrecip = await axios.post('https://api.climaanalizer.cloud/api/mes-dia-chuvoso', {
+          const responsePrecip = await axios.post('https://test-4yjo5ayola-rj.a.run.app/api/mes-dia-chuvoso', {
             tipo_dados:  'mes_dia_mais_chuvoso',
             data_inicial: startDate,
             data_final: endDate
@@ -77,7 +77,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
           onSelectData(responsePrecip.data);
           break;
         case '3': 
-          const responseTemp = await axios.post('https://api.climaanalizer.cloud/api/mes-dia-chuvoso', {
+          const responseTemp = await axios.post('https://test-4yjo5ayola-rj.a.run.app/api/mes-dia-chuvoso', {
             tipo_dados: 'mes_dia_menos_chuvoso',
             data_inicial: startDate,
             data_final: endDate
