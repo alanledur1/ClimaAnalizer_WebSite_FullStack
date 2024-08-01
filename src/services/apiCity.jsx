@@ -46,7 +46,7 @@ function ApiResultClima({ onDataFetch}) {
         setError(null);
 
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/api/clima/${city}`);
+            const response = await axios.get(`https://test-4yjo5ayola-rj.a.run.app/api/clima/${city}`);
             setData(response.data);
             onDataFetch(response.data); 
         } catch (error) {
