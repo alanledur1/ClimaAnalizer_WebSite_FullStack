@@ -350,7 +350,9 @@ const [open, setOpen] = React.useState(false);
     <Nav>
         <NavContainer>
           <NavLogo to="/" style={{ display: "flex", alignItems: "center" }} >
-              <a style={{
+              <a 
+                href='/'
+                style={{
                   display:"flex",
                   alignItems:"center",
                   marginRight:"10px",

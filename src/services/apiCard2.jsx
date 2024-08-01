@@ -14,7 +14,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [month, setMonth] = useState('');
-  const [intervaloTempo, setIntervaloTempo] = useState('um_ano');
+  const [intervaloTempo] = useState('um_ano');
   const [tempo, setTempo] = useState('um_ano');
 
   const handleMonthChange = (event) => {

@@ -94,7 +94,7 @@ const WeatherResult = ({ data, isDark, theme }) => {
     if (!data) return null;
 
     // Construa a URL do ícone
-    const iconUrl = `http://openweathermap.org/img/wn/${data.icone}.png`;
+    const iconUrl = `https://openweathermap.org/img/wn/${data.icone}.png`;
 
     // Obtendo a data e hora atuais
     const now = new Date();
