@@ -54,7 +54,7 @@ function ApiTemp({ onSelectData, isDark }) {
         case '2':
         case '3':
         case '4':
-          const responseData = await axios.post('https://crack-parser-431201-a7.rj.r.appspot.com/api/visualizar-dados', {
+          const responseData = await axios.post('https://clima-i3wssd7gnq-rj.a.run.app/api/visualizar-dados', {
             tipo_dados: option === '1' ? 'todos_os_dados' : option === '2' ? 'precipitacao' : option === '3' ? 'temperatura' : 'umidade_velocidade',
             data_inicial: startDate,
             data_final: endDate
