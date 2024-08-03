@@ -205,7 +205,7 @@ const Search = ({ isDark, darkTheme, lightTheme}) => {
             <ContainerCards>
                 <ObjectTitle>
                     <Circle /> {/* Coloca o círculo aqui */}
-                    <Title>Selecione um Card:</Title>
+                    <Title>Histórico Climático:</Title>
                 </ObjectTitle>
                 <CardContent>
                     <HomeCards

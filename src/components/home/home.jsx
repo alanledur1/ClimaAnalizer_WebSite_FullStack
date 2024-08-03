@@ -10,15 +10,18 @@ const ContentHome = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-height: 100vh;
+height: 100%;
 position: relative;
 top: 35px;
+
+@media screen and (min-width: 1026px) {
+  height: 100vh;
+}
 `;
 const Content = styled.div`
   background-color: ${({ theme }) => theme.bg} opacity: 0.2;
   border-radius: 20px;
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: flex-start;
   position: relative;
@@ -35,15 +38,15 @@ const Content = styled.div`
   }
   @media screen and (max-width: 900px) {
     margin-bottom: 10px;
-    flex-direction: column;
     padding: 16px;
     margin-top: 30px;
+    display: block;
   }
   @media screen and (max-width: 600px) {
     margin-bottom: 10px;
-    flex-direction: column;
     padding: 16px;
     margin-top: 30px;
+    display: block;
   }
   @media screen and (max-width: 378px) {
     font-size: 16px;
@@ -52,6 +55,8 @@ const Content = styled.div`
     flex-direction: column;
     padding: 16px;
     margin-top: 30px;
+    display: block;
+    height: 100%;
   }
   
 `;
@@ -309,9 +314,26 @@ const StaticText = styled.div`
 const DescriptionClima = styled.div`
     border-radius: 10px;
     width: 100%;
-    height: 400px;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
+    @media (max-width: 900px) {
+    font-size: 22px;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    flex-direction: column;
+  }
+
+  @media screen and (max-width: 378px) {
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    flex-direction: column;
+  }
     `;
 
 const SearchCity = styled.div`
@@ -330,6 +352,18 @@ const DescriptionCity = styled.div`
   align-items: center; /* Centraliza o conteúdo horizontalmente */
   padding: 10px; /* Adiciona um pouco de preenchimento */
   box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
+      @media screen and (max-width: 960px) {
+      text-align: center;
+    }
+
+    @media screen and (max-width: 600px) {
+      width: 100%;
+      padding: 0px;
+    }
+    @media screen and (max-width: 378px) {
+    width: 100%;
+    padding: 0px;
+    }
 `;
 
 const ClimateDetails = styled.div`
@@ -340,6 +374,18 @@ const ClimateDetails = styled.div`
   align-items: center; /* Centraliza o conteúdo horizontalmente */
   padding: 10px; /* Adiciona um pouco de preenchimento */
   box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
+  @media screen and (max-width: 960px) {
+  }
+
+  @media screen and (max-width: 600px) {
+      width: 100%;
+      padding: 0px;
+  }
+  @media screen and (max-width: 378px) {
+  width: 100%;
+  padding: 0px;
+
+  }
 `;
 
 export const Home = ({ isDark }) => {

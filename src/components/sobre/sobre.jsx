@@ -5,10 +5,13 @@ const ContentSobre = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; 
   position: relative;
   top: 30px;
-  margin: 72px auto; 
+  margin: 50px auto;
+
+  @media screen and (min-width: 1026px) {
+  height: 100vh;
+  }
   @media (max-width: 768px) {
     height: auto; 
     top: 14px;
