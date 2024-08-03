@@ -57,7 +57,7 @@ const Wrapper = styled.div`
   position: relative;
   z-index: 1;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     clip-path: circle(72% at center); 
   }
   @media (max-width: 768px) {

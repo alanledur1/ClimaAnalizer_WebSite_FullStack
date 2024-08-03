@@ -13,13 +13,23 @@ const Button = styled.button`
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-
     &:hover {
         background-color: #0056b3;
     }
-
     &:active {
         background-color: #004494;
+    }
+    @media screen and (max-width: 640) {
+        padding: 3px 10px;
+        font-size: 14px;
+    }
+    @media screen and (max-width: 600px) {
+        padding: 3px 10px;
+        font-size: 14px;
+    }
+    @media screen and (max-width: 378px) {
+            margin-top: 10px;
+        font-size: 12px;
     }
 `;
 
@@ -28,6 +38,14 @@ const FormContainer = styled.div`
     flex-direction: column;
     align-items: center;
     margin: 20px;
+    @media screen and (max-width: 600px) {
+        padding: 3px 10px;
+        font-size: 14px;
+    }
+    @media screen and (max-width: 378px) {
+        font-size: 12px;
+        margin: 0;
+    }
 `;
 
 function ApiResultClima({ onDataFetch}) {
