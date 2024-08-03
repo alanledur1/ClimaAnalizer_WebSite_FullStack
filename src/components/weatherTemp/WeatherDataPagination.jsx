@@ -14,10 +14,12 @@ const WeatherDataPagination = ({ weatherData, isDark }) => {
 
   if (isSmallScreen) {
     itemsPerPage = 4; // Se for uma tela pequena (378px), mostrar 4 itens por pesquisa
-  } else if (isMediumScreen || isLargeScreen) {
-    itemsPerPage = 6; // Se for uma tela média (600px) ou grande (900px), mostrar 6 itens por pesquisa
+  } else if (isMediumScreen) {
+    itemsPerPage = 4; // Se for uma tela média (600px), mostrar 6 itens por pesquisa
+  } else if (isLargeScreen) {
+    itemsPerPage = 6; // Se for uma tela média (900px), mostrar 6 itens por pesquisa
   } else {
-    itemsPerPage = 12; // Outras telas mostrarão 10 itens por pesquisa
+    itemsPerPage = 6; // Outras telas mostrarão 6 itens por pesquisa
   }
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -84,6 +86,13 @@ const WeatherDataPagination = ({ weatherData, isDark }) => {
                 width: '32%',
                 color: selectedTheme.text_secondary,
                 transition: 'all 0.5s ease-in-out',
+                '@media (max-width: 600px)': {
+                  // Estilos específicos para telas de até 378px
+                  padding: '0px', // exemplo de alteração
+                  width: '49%', // exemplo de alteração
+                  fontSize: '12px', // exemplo de alteração
+                  gap: '0px', 
+                },
                 '@media (max-width: 378px)': {
                   // Estilos específicos para telas de até 378px
                   padding: '0px', // exemplo de alteração

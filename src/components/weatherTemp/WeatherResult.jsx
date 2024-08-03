@@ -11,6 +11,13 @@ const ResultContainer = styled.div`
     flex-direction: column; 
     align-items: center;
     box-sizing: border-box;
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+      height: 50%;
+
+    }
+    @media screen and (max-width: 378px) {
+    }
 `;
 
 const CardContainer = styled.div`
@@ -25,6 +32,13 @@ const CardContainer = styled.div`
   cursor: pointer;
   &:hover {
     transform: scale(1.05);
+    }
+
+    @media screen and (max-width: 600px) {
+    }
+    @media screen and (max-width: 378px) {
+        padding: 15px;
+    }
 `;
 
 const CardHeader = styled.div`
@@ -46,6 +60,21 @@ const CardHeader = styled.div`
         font-size: 15px;
         line-height: 135%;
         color: ${({ theme }) => theme.text_card_secondary};
+    }
+    @media screen and (max-width: 600px) {
+    }
+    @media screen and (max-width: 378px) {
+        span:first-child{
+            word-break: break-all;
+            font-weight: 800;
+            font-size: 16px;
+            line-height: 135%;
+        }
+    span:last-child{
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 135%;
+        }
     }
 `;
 
@@ -87,6 +116,24 @@ const CardDetails = styled.div`
   align-items: center;
   justify-content: center;
   transform: scale(0.7);
+
+  @media screen and (max-width: 960px) {
+    transform: scale(0.6);
+    right: -10px;
+    top: 5px;
+  }
+
+
+  @media screen and (max-width: 600px) {
+    transform: scale(0.5);
+    right: -10px;
+    top: 5px;
+  }
+  @media screen and (max-width: 378px) {
+    transform: scale(0.4);
+    right: -10px;
+    top: 10px;
+  }
 `;
 const WeatherResult = ({ data, isDark, theme }) => {
 
