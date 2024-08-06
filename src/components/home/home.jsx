@@ -11,7 +11,7 @@ import WeatherResult from '../weatherTemp/WeatherResult';
 const ContentHome = styled.div`
   display: flex;
   height: 100%;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
   position: relative;
   top: 35px;
@@ -380,7 +380,13 @@ export const Home = ({ isDark }) => {
             <Description>
               <DescriptionGlow></DescriptionGlow>
               <DescriptionBorderGlow></DescriptionBorderGlow>
-              <DescriptionBody>Explore o histórico climático detalhado de Porto Alegre de 1961 a 2023 e descubra padrões climáticos ao longo das últimas décadas. Em breve, estaremos adicionando informações sobre outras localidades para oferecer uma visão abrangente do clima em diferentes regiões. Analise as tendências de temperatura, precipitação e outros fatores climáticos para entender melhor o clima da sua região.</DescriptionBody>
+              <DescriptionBody>Explore o histórico climático detalhado de Porto Alegre, de 1961 a 2023, e descubra padrões climáticos ao longo das últimas décadas.
+Em breve, estaremos adicionando dados sobre outras localidades para oferecer uma visão abrangente do clima em diferentes regiões. Analise as tendências de temperatura, precipitação e outros fatores climáticos para entender melhor o clima de sua região.</DescriptionBody>
+            </Description>
+            <Description>
+              <DescriptionGlow></DescriptionGlow>
+              <DescriptionBorderGlow></DescriptionBorderGlow>
+              <DescriptionBody>Além disso, você pode consultar o clima atual de qualquer cidade diretamente aqui. Fique atento às atualizações para acessar tanto o histórico climático quanto as condições atuais das cidades ao redor do mundo.</DescriptionBody>
             </Description>
             <DescriptionClima>
               <SearchCity>
