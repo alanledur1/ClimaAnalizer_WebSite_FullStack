@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+// Container do rodapé, com largura total, altura fixa e centralização do conteúdo
 const FooterContainer = styled.div`
     width: 100%;
     height: 100px;
@@ -13,7 +14,7 @@ const FooterContainer = styled.div`
     border-radius: 50%;
 `;
 
-
+// Container para o conteúdo dentro do rodapé, centralizado
 const Content = styled.div`
     display: flex;
     justify-content: center;
@@ -21,6 +22,7 @@ const Content = styled.div`
     width: 100%;
 `;
 
+// Descrição com estilo para o texto do rodapé
 const Description = styled.div`
     margin-right: 10px;
     font-size: 14px;
@@ -35,14 +37,14 @@ const Description = styled.div`
         font-size: 10px;
         margin-bottom: 10px;
     }
-
 `;
 
+// Span para estilizar parte do texto
 const Span = styled.span`
     color: red;
-
 `;
 
+// Componente funcional do rodapé
 export const Footer = () => {
   return (
     <FooterContainer>
