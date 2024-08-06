@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { darkTheme, lightTheme } from '../../utils/Themes';
 import ApiResultClima from '../../services/apiCity';
 import styled, { keyframes } from 'styled-components';
-import Typewriter from "typewriter-effect";
 import { WeatherDetails } from '../weatherTemp/WeatherDetails';
 import WeatherResult from '../weatherTemp/WeatherResult';
 
@@ -11,7 +10,7 @@ import WeatherResult from '../weatherTemp/WeatherResult';
 const ContentHome = styled.div`
   display: flex;
   height: 100%;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   position: relative;
   top: 35px;
@@ -258,11 +257,18 @@ const DescriptionGlow = styled.div`
  `;
 
  // Estilo para elementos com destaque
-const Span = styled.span`
-    color: ${({ theme }) => theme.primary};
-    font-weight: bolder;
-    cursor: pointer;
+ const Span = styled.span`
+ color: ${({ theme }) => theme.primary};
+ font-weight: 600;
+ cursor: pointer;
+ font-family: 'Montserrat', sans-serif;
+ font-size: 16px;
+ letter-spacing: 0.5px;
+
+ opacity: 0.9; /* Opacidade padrão */
 `;
+
+
 
 // Texto estático que será ocultado em dispositivos móveis
 const StaticText = styled.div`
@@ -366,16 +372,8 @@ export const Home = ({ isDark }) => {
       <Title>Bem-vindo ao ClimaAnalizer</Title>
         <ColumnDetails>
           <TextLoop>
-             <StaticText className='static-text'>Analise os dados meteorológicos:</StaticText>
-            <Span>
-              <Typewriter
-              options={{
-                strings:["precipitação", "temperatura mínima e máxima", "horas de sol", "umidade relativa", "velocidade do vento"],
-                autoStart: true,
-                loop: true,
-              }}
-              />
-            </Span>
+             <StaticText className='static-text'>Analise os dados:</StaticText>
+            <Span>precipitação | temperatura mínima e máxima | umidade relativa | velocidade do vento</Span>
           </TextLoop>
             <Description>
               <DescriptionGlow></DescriptionGlow>

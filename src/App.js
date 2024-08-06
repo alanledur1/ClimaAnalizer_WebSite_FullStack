@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'Montserrat', sans-serif;
     background-color: ${({ theme }) => theme.nav};
+    align-items: center;
 
   }
 `;
@@ -25,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Garante que o contêiner ocupa a altura total da tela */
   background: linear-gradient(
     38.73deg,
     rgba(204, 0, 187, 0.15) 0%,

@@ -351,11 +351,12 @@ const [open, setOpen] = React.useState(false);
         <NavContainer>
           <NavLogo to="/" style={{ display: "flex", alignItems: "center" }} >
               <a 
-                href='/'
+                href='#inicio'
                 style={{
                   display:"flex",
                   alignItems:"center",
                   marginRight:"10px",
+                  textDecoration:"none",
               }}>
                 <LogoImage className='logo-image'></LogoImage>
                   <TitleLogo><strong>Clima</strong>Analizer</TitleLogo>
