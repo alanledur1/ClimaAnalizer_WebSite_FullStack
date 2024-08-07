@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { darkTheme, lightTheme } from '../../utils/Themes';
 import ApiResultClima from '../../services/apiCity';
 import styled, { keyframes } from 'styled-components';
+import Typewriter from "typewriter-effect";
 import { WeatherDetails } from '../weatherTemp/WeatherDetails';
 import WeatherResult from '../weatherTemp/WeatherResult';
 
@@ -101,6 +102,9 @@ const TitleWrapper = styled.h1`
     justify-content: center;
     display: flex;
   }
+  no-translate {
+    translate: no;
+  }
 `;
 
 // Animação de movimento das letras
@@ -119,7 +123,7 @@ const Letter = styled.span`
 
 // Componente Título com animação de letras
 const Title = () => (
-  <TitleWrapper>
+  <TitleWrapper translate="no"> {/* Adiciona o atributo translate="no" */}
     {"Bem-vindo ao ClimaAnalizer".split("").map((char, index) => (
       <React.Fragment key={index}>
         <Letter delay={`${index * 0.1}s`}>
@@ -371,9 +375,17 @@ export const Home = ({ isDark }) => {
       <Content>
       <Title>Bem-vindo ao ClimaAnalizer</Title>
         <ColumnDetails>
-          <TextLoop>
-             <StaticText className='static-text'>Analise os dados:</StaticText>
-            <Span>precipitação | temperatura mínima e máxima | umidade relativa | velocidade do vento</Span>
+        <TextLoop>
+             <StaticText className='static-text'>Analise os dados meteorológicos:</StaticText>
+            <Span translate="no">
+                <Typewriter
+                options={{
+                  strings:["precipitação", "temperatura mínima e máxima", "horas de sol", "umidade relativa", "velocidade do vento"],
+                  autoStart: true,
+                  loop: true,
+                }}
+                />
+            </Span>
           </TextLoop>
             <Description>
               <DescriptionGlow></DescriptionGlow>
