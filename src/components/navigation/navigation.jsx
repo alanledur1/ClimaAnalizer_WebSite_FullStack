@@ -347,7 +347,7 @@ const [open, setOpen] = React.useState(false);
 
 
   return (
-    <Nav>
+    <Nav translate='no'>
         <NavContainer>
           <NavLogo to="/" style={{ display: "flex", alignItems: "center" }} >
               <a 
