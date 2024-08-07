@@ -374,7 +374,7 @@ const [open, setOpen] = React.useState(false);
             <NavItems>
               <NavLink href='#inicio'>Inicio</NavLink>
               <NavLink href='#sobre'>Sobre</NavLink>
-              <NavLink href='#ajuda'>Ajuda</NavLink>
+              <NavLink href='#climaHistórico'>Clima Histórico</NavLink>
             </NavItems>
             <ButtonContainer>
               <InputCheckbox

@@ -200,7 +200,7 @@ const Search = ({ isDark, darkTheme, lightTheme}) => {
     };
 
   return (
-    <ContentSearch>
+    <ContentSearch id='climaHistórico'>
         <Content>
             <ContainerCards>
                 <ObjectTitle>
