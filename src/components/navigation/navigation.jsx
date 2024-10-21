@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components';
 import { Link as LinkR } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
@@ -41,7 +41,6 @@ const Nav = styled.div`
     margin-bottom: 10px;
   }
 `;
-
 
 const NavContainer = styled.div`
   display: flex;
@@ -134,7 +133,7 @@ const ButtonContainer = styled.div`
     margin-right: 40px;
     display: inline-flex;
    }
-   @media screen and (max-width: 600px) {
+   @media screen and (max-width: 768px) {
     justify-content: center;
     align-items: center;
     margin-right: 55px;
@@ -153,26 +152,25 @@ export const Span = styled.div`
    font-weight: bold;
    font-size: 18px;
 `;
-
 const MobileMenu = styled.div`
    display: flex;
    flex-direction: column;
    justify-content: center;
    gap: 16px;
    position: absolute;
-   top: 80;
+   top: 0;
    right: 0;
-   width: 100%;
    padding: 12px 40px 24px 40px;
-   background: ${({ theme}) => theme.card_light+99};
-   transition: all 0.3s ease-in-out;
+   background: ${({ theme }) => `${theme.card_light}99`};
+   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
-   border-radius: 0 0 20 20px;
+   border-radius: 0 0 20px 20px;
    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
    opacity: ${({ open }) => (open ? "1" : "0")};
-   z-index: ${({ open }) => (open ? "1" : "-1")};
+   visibility: ${({ open }) => (open ? "visible" : "hidden")};
+   z-index: 10; /* Definido como constante */
+   will-change: transform, opacity;
 `;
-
 
 const MobileMenuLinks = styled(LinkR)`
    color: ${({ theme }) => theme.text_primary};
@@ -234,12 +232,12 @@ const ButtonLabel = styled.label`
     transition: 0.3s;
     background-image: url(${image2}); 
   }
-   @media screen and (max-width: 640) {
+
+   @media screen and (max-width: 768px) {
+    width: 50px;
+    height: 23px;
     font-size: 0.8rem;
-   }
-   @media screen and (max-width: 600px) {
-    width: 53px;
-    height: 30px;
+    margin-left: 20px;
     &:after {
       width: 20px;
       height: 20px;
@@ -300,7 +298,7 @@ const LogoImage = styled.div`
   @media screen and (max-width: 900px) {
 
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
   @media screen and (max-width: 378px) {
@@ -312,42 +310,54 @@ const TitleLogo = styled.div`
   color: ${({ theme }) => theme.text_primary};
   font-weight: 500;
   font-size: 1.5rem;
-  margin-left: 2px;
+  margin-left: 0.125rem;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
   display: block;
+
   @media screen and (max-width: 900px) {
-    position: relative;
-    left: 0px;
-    font-size: 18px;
+    font-size: 1.125rem;
+    margin-left: 0;
   }
-  @media screen and (max-width: 600px) {
-    position: relative;
-    left: 70px;
-    font-size: 18px;
+  @media screen and (max-width: 768px) {
+    font-size: 1.125rem;
+    margin-left: 0;
   }
   @media screen and (max-width: 378px) {
-    position: relative;
+    font-size: 1rem;
     left: 55px;
-    font-size: 16px;
-    margin-top: 30px;
-    margin-bottom: 24px;
+    margin-top: 1.875rem;
+    margin-bottom: 1.5rem;
   }
 `;
 
-
 export const Navigation = ({isDark, setIsDark}) => {
 const [open, setOpen] = React.useState(false);
-
+const menuRef = useRef(null);
 
   const handleChange = () => { 
     setIsDark(!isDark)
-  }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Verifica se o clique foi fora da barra de navegação
+      if (menuRef.current &&!menuRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef]);
 
 
   return (
-    <Nav translate='no'>
+    <Nav ref={menuRef} translate='no'>
         <NavContainer>
           <NavLogo to="/" style={{ display: "flex", alignItems: "center" }} >
               <a 
@@ -363,7 +373,6 @@ const [open, setOpen] = React.useState(false);
               </a>
               
             </NavLogo>
-            
             <MobileIcon>
               <FaBars
                 onClick={() => {
@@ -389,25 +398,19 @@ const [open, setOpen] = React.useState(false);
           <MobileMenu open={open}>
             <MobileMenuLinks 
               href="#inicio"
-              onClick={() => {
-                setOpen(!open);
-              }}
+              onClick={() => setOpen(false)}
             >
               Inicio
             </MobileMenuLinks>
             <MobileMenuLinks 
               href="#sobre"
-              onClick={() => {
-                setOpen(!open);
-              }}
+              onClick={() => setOpen(false)}
             >
               Sobre
             </MobileMenuLinks>
             <MobileMenuLinks 
               href="#ajuda"
-              onClick={() => {
-                setOpen(!open);
-              }}
+              onClick={() => setOpen(false)}
             >
               Ajuda
             </MobileMenuLinks>
