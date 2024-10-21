@@ -20,7 +20,7 @@ O Clima Analizer é uma plataforma que oferece análises do clima, incluindo dad
 
 ## 🛠️ Tecnologias Usadas
 
-- **Frontend**: HTML, CSS, JavaScript, react.js
+- **Frontend**: HTML, CSS, JavaScript, React.js
 - **Backend**: Python, Flask
 - **Banco de Dados**: arquivo CSV
 - **APIs**: Integração com APIs de dados climáticos
