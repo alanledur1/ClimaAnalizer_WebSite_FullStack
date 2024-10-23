@@ -70,7 +70,7 @@ const WeatherDataPagination = ({ weatherData, isDark }) => {
         Dados Meteorológicos
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
-        <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+        <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', flexDirection: 'column' }}>
           {weatherData.dados.slice(startIndex, endIndex).map((data, index) =>  (
             <Box
               key={index}
@@ -88,16 +88,16 @@ const WeatherDataPagination = ({ weatherData, isDark }) => {
                 transition: 'all 0.5s ease-in-out',
                 '@media (max-width: 600px)': {
                   // Estilos específicos para telas de até 378px
-                  padding: '0px', // exemplo de alteração
-                  width: '49%', // exemplo de alteração
-                  fontSize: '12px', // exemplo de alteração
+                  padding: '0px', 
+                  width: '49%',
+                  fontSize: '12px', 
                   gap: '0px', 
                 },
                 '@media (max-width: 378px)': {
                   // Estilos específicos para telas de até 378px
-                  padding: '0px', // exemplo de alteração
-                  width: '49%', // exemplo de alteração
-                  fontSize: '12px', // exemplo de alteração
+                  padding: '0px', 
+                  width: '49%', 
+                  fontSize: '12px', 
                   gap: '0px', 
                 },
               }}

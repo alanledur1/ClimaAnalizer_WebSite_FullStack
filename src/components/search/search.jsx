@@ -140,8 +140,8 @@ const ContainerCards = styled.div`
   height: auto;
   position: relative;
   top: 30px;
-    @media screen and (max-width: 768px) {
-  flex-wrap: wrap;
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
   }
 `;
 const CardContent = styled.div`
@@ -173,6 +173,7 @@ const BoxContent = styled.div`
       font-size: 16px;
       margin-bottom: 8px;
       padding: 0px;
+      flex-direction: column;
       .static-text {
         display: none;
       }

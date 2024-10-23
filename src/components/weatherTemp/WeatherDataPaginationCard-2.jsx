@@ -44,6 +44,7 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
         marginTop: '20px',  
         padding: '5px',
         borderRadius: '8px' 
+        
       }}>
       <Typography 
         variant='h6' 
@@ -53,13 +54,31 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
           marginBottom: '20px', 
           color: selectedTheme.text_primary
         }}
+        
       >
-      teste Meteorológicos
+      Dados Meteorológicos
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
         // Dividindo os dados em grupos de duas colunas
         splitDataIntoColumns(weatherData.dados.slice(startIndex, endIndex), 2).map((columnData, columnIndex) => (
-          <List key={columnIndex} sx={{ display: 'flex', marginBottom: '20px' }}>
+          <List 
+            key={columnIndex} 
+            sx={{ 
+              display: 'flex', 
+              marginBottom: '20px',
+              '@media (max-width: 768px)': {
+                // Estilos específicos para telas de até 768px
+                padding: '0px', 
+                fontSize: '12px', 
+              },
+              '@media (max-width: 378px)': {
+                // Estilos específicos para telas de até 378px
+                padding: '0px', 
+                width: '100%', 
+                fontSize: '12px', 
+                gap: '0px', 
+              },
+           }}>
             {columnData.map((data, index) => (
               <Box
                 key={index}
@@ -82,6 +101,20 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
                     color: selectedTheme.text_primary,
                     cursor: 'pointer',
                     transform: 'scale(1.02)', 
+                  },
+                  '@media (max-width: 768px)': {
+                    // Estilos específicos para telas de até 768px
+                    padding: '0px', 
+                    width: '49%',
+                    fontSize: '12px',
+                    gap: '0px', 
+                  },
+                  '@media (max-width: 378px)': {
+                    // Estilos específicos para telas de até 378px
+                    padding: '0px', 
+                    width: '49%', 
+                    fontSize: '12px', 
+                    gap: '0px', 
                   },
                 }}
               >
