@@ -43,7 +43,7 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
       sx={{ 
         marginTop: '20px',  
         padding: '5px',
-        borderRadius: '8px' 
+        borderRadius: '8px',
         
       }}>
       <Typography 
@@ -69,13 +69,16 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
               '@media (max-width: 768px)': {
                 // Estilos específicos para telas de até 768px
                 padding: '0px', 
-                fontSize: '12px', 
+                fontSize: '12px',
+                flexDirection: 'column',
+                width: '100%',
               },
-              '@media (max-width: 378px)': {
+              '@media (max-width: 528px)': {
                 // Estilos específicos para telas de até 378px
                 padding: '0px', 
                 width: '100%', 
                 fontSize: '12px', 
+                flexDirection:'column', 
                 gap: '0px', 
               },
            }}>
@@ -86,7 +89,6 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
                   display: 'grid',
                   gridTemplateColumns: 'repeat(2, 1fr)',
                   gap: '8px',
-                  padding: '20px',
                   border: `1px solid ${({ theme }) => theme.nav}`,
                   borderRadius: '8px',
                   background: selectedTheme.BackgroundDados,
@@ -105,16 +107,21 @@ export const WeatherDataPaginationCard2 = ({ weatherData, isDark }) => {
                   '@media (max-width: 768px)': {
                     // Estilos específicos para telas de até 768px
                     padding: '0px', 
-                    width: '49%',
+                    width: '100%',
                     fontSize: '12px',
+                    marginBottom:'5px',
                     gap: '0px', 
+                    justifyContent: 'center',
+                    gridTemplateColumns: 'none',
                   },
-                  '@media (max-width: 378px)': {
-                    // Estilos específicos para telas de até 378px
+                  '@media (max-width: 400px)': {
+                    // Estilos específicos para telas de até 768px
                     padding: '0px', 
-                    width: '49%', 
-                    fontSize: '12px', 
+                    width: '100%',
+                    fontSize: '12px',
+                    marginBottom:'5px',
                     gap: '0px', 
+                    display: 'block',
                   },
                 }}
               >

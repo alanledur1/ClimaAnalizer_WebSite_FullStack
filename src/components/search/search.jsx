@@ -162,29 +162,37 @@ const BoxContent = styled.div`
     width: 100%;
     height: auto;
     margin-top: 5px;
-    background-color: ${({ theme }) => theme.card+80};
+    background-color: ${({ theme }) => `rgba(${theme.card}, 0.8)`}; 
     border-radius: 20px;
     padding: 20px;
     cursor: pointer;
     box-shadow: rgba(33, 60, 115, 0.15) 0px 4px 24px;
     backdrop-filter: blur(6px);
     border: 1px solid ${({ theme }) => theme.border};
-    @media screen and (max-width: 600px) {
+
+    @media screen and (max-width: 768px) {
       font-size: 16px;
       margin-bottom: 8px;
-      padding: 0px;
+      padding: 10px; 
       flex-direction: column;
+      border-radius: 15px;  
+      box-shadow: rgba(33, 60, 115, 0.10) 0px 2px 12px; 
       .static-text {
         display: none;
       }
+    }
+
     @media screen and (max-width: 378px) {
       font-size: 12px;
       margin-bottom: 8px;
-      padding: 0px;
+      padding: 8px;  
+      border-radius: 10px;
       .static-text {
         display: none;
       }
+    }
 `;
+
 
 const Search = ({ isDark, darkTheme, lightTheme}) => {
     const [weatherDataFromApiTemp, setWeatherDataFromApiTemp] = useState(null);
