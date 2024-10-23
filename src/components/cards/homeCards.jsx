@@ -138,6 +138,7 @@ export const HomeCards = ({ onSelectDataApiTemp, onSelectDataApiTempChuva, isDar
   const selectedTheme = isDark ? darkTheme : lightTheme;
   const [openModal1, setOpenModal1] = useState(false);
   const [openModal2, setOpenModal2] = useState(false);
+  const [openModal3, setOpenModal3] = useState(false);
 
   const handleOpenModal1 = () => {
     setOpenModal1(true);
@@ -145,12 +146,21 @@ export const HomeCards = ({ onSelectDataApiTemp, onSelectDataApiTempChuva, isDar
   const handleOpenModal2 = () => {
     setOpenModal2(true);
   };
+  const handleOpenModal3 = () => {
+    setOpenModal3(true);
+  }
+
   const handleCloseModal1 = () => {
     setOpenModal1(false);
   };
   const handleCloseModal2 = () => {
     setOpenModal2(false);
   };
+
+  const handleCloseModal3 = () => {
+    setOpenModal3(false);
+  };
+
   const handleSelectDataApiTemp = (selectedData) => {
     onSelectDataApiTemp(selectedData);
     handleCloseModal1();
@@ -162,6 +172,8 @@ export const HomeCards = ({ onSelectDataApiTemp, onSelectDataApiTempChuva, isDar
 
   return (
     <CardContent>
+
+      {/* card 1 */}
       <Card onClick={handleOpenModal1}>
         <Top>
           <Image src={ImgMedia3}/>
@@ -208,6 +220,8 @@ export const HomeCards = ({ onSelectDataApiTemp, onSelectDataApiTempChuva, isDar
             </Box>
           </Box>
         </Modal>
+
+      {/* card 2 */}
       <Card onClick={handleOpenModal2}>
         <Top>
           <Image src={ImgMedia2}/>
@@ -254,7 +268,9 @@ export const HomeCards = ({ onSelectDataApiTemp, onSelectDataApiTempChuva, isDar
             </Box>
           </Box>
         </Modal>
-      <Card>
+
+      {/* card 3 */}
+      <Card onClick={handleOpenModal3}>
         <Top>
           <Image src={ImgMedia}/>
           <Body>
@@ -262,6 +278,37 @@ export const HomeCards = ({ onSelectDataApiTemp, onSelectDataApiTempChuva, isDar
           </Body>
         </Top>
       </Card>
+      <Modal open={openModal3} onClose={handleCloseModal3}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "90%",
+              maxWidth: 900,
+              bgcolor: selectedTheme.bgLight,
+              borderRadius: 8,         
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              p: 4,
+            }}
+          >
+            <Typography variant="h6" gutterBottom sx={{color: selectedTheme.text_primary}}>
+              Card em construção.
+            </Typography>
+            <Box 
+              sx={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleCloseModal3}
+                sx={{ marginRight: 2 }}
+              >
+                Fechar
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
       
     </CardContent>
   )
