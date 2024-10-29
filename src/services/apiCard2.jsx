@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { darkTheme, lightTheme } from '../utils/Themes.js';
-import { Typography, TextField, Button,Box } from "@mui/material";
+import { Typography, TextField, Button,Box, CircularProgress } from "@mui/material";
 
 
 function ApiTempChuva({ onSelectData, isDark }) {
@@ -13,9 +13,29 @@ function ApiTempChuva({ onSelectData, isDark }) {
   const [option, setOption] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [startYear, setStartYear] = useState('');
+  const [endYear, setEndYear] = useState('');
   const [month, setMonth] = useState('');
-  const [intervaloTempo] = useState('um_ano');
-  const [tempo, setTempo] = useState('um_ano');
+  const [intervaloTempo, setIntervaloTempo] = useState(''); // Inicializando o estado aqui
+  const [tempo, setTempo] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null); // Novo estado para armazenar os dados
+
+  const handleStartYearChange = (event) => {
+    let inputYear = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    if (inputYear.length > 4) {
+      inputYear = inputYear.slice(0, 4); // Limita a entrada a 4 dígitos (ano)
+    }
+    setStartYear(inputYear); // Atualiza o estado startYear
+  };
+
+  const handleEndYearChange = (event) => {
+    let inputYear = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    if (inputYear.length > 4) {
+      inputYear = inputYear.slice(0, 4); // Limita a entrada a 4 dígitos (ano)
+    }
+    setEndYear(inputYear); // Atualiza o estado endYear
+  };
 
   const handleMonthChange = (event) => {
     setMonth(event.target.value);
@@ -23,81 +43,130 @@ function ApiTempChuva({ onSelectData, isDark }) {
 
   const handleTempoChange = (event) => {
     setTempo(event.target.value); // Atualiza o estado do intervalo de tempo
+    setIntervaloTempo(event.target.value); // Atualiza o intervalo de tempo aqui
   };
-
   
   const handleStartDateChange = (event) => {
     let inputDate = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-    if (inputDate.length > 0) {
-      // Insere barras após o dia e o mês, se necessário
-      if (inputDate.length > 2 && inputDate.length <= 4) {
-        inputDate = inputDate.replace(/^(\d{2})(\d{2})/, '$1/$2');
-      } else if (inputDate.length > 4) {
-        inputDate = inputDate.replace(/^(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+    
+    if (tempo === 'varios_anos') {
+      if (inputDate.length > 4) {
+        inputDate = inputDate.slice(0, 4); // Limita a entrada a 4 dígitos (ano)
+      }
+    } else {
+      // Formato de data DD/MM/YYYY
+      if (inputDate.length > 0) {
+        // Insere barras após o dia e o mês, se necessário
+        if (inputDate.length > 2 && inputDate.length <= 4) {
+          inputDate = inputDate.replace(/^(\d{2})(\d{2})/, '$1/$2');
+        } else if (inputDate.length > 4) {
+          inputDate = inputDate.replace(/^(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+        }
       }
     }
+
     setStartDate(inputDate); // Atualiza o estado startDate
   };
 
   const handleEndDateChange = (event) => {
     let inputDate = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-    if (inputDate.length > 0) {
-      // Insere barras após o dia e o mês, se necessário
-      if (inputDate.length > 2 && inputDate.length <= 4) {
-        inputDate = inputDate.replace(/^(\d{2})(\d{2})/, '$1/$2');
-      } else if (inputDate.length > 4) {
-        inputDate = inputDate.replace(/^(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+
+    if (tempo === 'varios_anos') {
+      if (inputDate.length > 4) {
+        inputDate = inputDate.slice(0, 4); // Limita a entrada a 4 dígitos (ano)
+      }
+    } else {
+      if (inputDate.length > 0) {
+        if (inputDate.length > 2 && inputDate.length <= 4) {
+          inputDate = inputDate.replace(/^(\d{2})(\d{2})/, '$1/$2');
+        } else if (inputDate.length > 4) {
+          inputDate = inputDate.replace(/^(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+        }
       }
     }
-    setEndDate(inputDate); // Atualiza o estado endDate
+
+    setEndDate(inputDate); // Atualiza o estado
   };
 
   const handleOptionChange = (event) => {
     setOption(event.target.value);
   };
 
+  // Função de formatação para datas no formato DD/MM/YYYY e YYYY
+  const formatDate = (date, isYearOnly) => {
+    if (isYearOnly) return date.length === 4 ? date : '';
+    if (date.length === 10) return date; // Se já estiver formatado corretamente
+    const formattedDate = date.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
+    return formattedDate;
+  };
+
+  // Exemplo de validação rápida
+  const isValidDate = (date) => {
+    // Check if day and month are within valid ranges
+    const [day, month, year] = date.split('/').map(Number);
+    return (
+      day >= 1 && day <= 31 &&
+      month >= 1 && month <= 12 &&
+      year && year.toString().length === 4
+    );
+  };
+
+  // Verificação no envio
   const handleOptionSubmit = async () => {
+    setLoading(true);
+    const formattedStartDate = formatDate(startDate, tempo === 'varios_anos');
+    const formattedEndDate = formatDate(endDate, tempo === 'varios_anos');
+
+    // Validação para 'um_ano' caso seja necessário
+    if (tempo === 'um_ano' && (!isValidDate(formattedStartDate) || !isValidDate(formattedEndDate))) {
+      alert("Por favor, insira datas válidas no formato DD/MM/YYYY.");
+      setLoading(false);
+      return;
+    }
+    
     try {
-      switch (option) {
-        case '1':
-          const responseAll = await axios.post('https://climaanalyze-i3wssd7gnq-rj.a.run.app/api/mes-dia-chuvoso', {
-            tipo_dados: 'todos_os_dados',
-            intervalo_tempo: intervaloTempo,
-            data_inicial: startDate,
-            data_final: endDate
-          });
-          onSelectData(responseAll.data);
-          break;
-        case '2':
-          const responsePrecip = await axios.post('https://climaanalyze-i3wssd7gnq-rj.a.run.app/api/mes-dia-chuvoso', {
-            tipo_dados:  'mes_dia_mais_chuvoso',
-            data_inicial: startDate,
-            data_final: endDate
-          });
-          onSelectData(responsePrecip.data);
-          break;
-        case '3': 
-          const responseTemp = await axios.post('https://climaanalyze-i3wssd7gnq-rj.a.run.app/api/mes-dia-chuvoso', {
-            tipo_dados: 'mes_dia_menos_chuvoso',
-            data_inicial: startDate,
-            data_final: endDate
-          });
-          onSelectData(responseTemp.data);
-          break;
-        /*  case '4':
-          const responseHumidityVel = await axios.post('/api/mes-dia-chuvoso', {
-            tipo_dados: 'ano_mais_E_menos_chuvoso',
-            data_inicial: startDate,
-            data_final: endDate
-          });
-          onSelectData(responseHumidityVel.data);
-          break; */
-        default:
-          alert('Opção inválida. Tente novamente.');
+      let response;
+
+      // Validação de dados antes da requisição
+      if (tempo === 'varios_anos' && (!startYear || !endYear || !month)) {
+        alert("Por favor, insira todos os campos: ano inicial, ano final e mês.");
+        setLoading(false);
+        return;
       }
+      
+      if (tempo === 'um_ano' && (!startDate || !endDate)) {
+        alert("Por favor, insira as datas inicial e final no formato DD/MM/YYYY.");
+        setLoading(false);
+        return;
+      }
+
+      // Executa a requisição conforme o tipo de intervalo
+      if (tempo === 'varios_anos') {
+        response = await axios.post('http://127.0.0.1:5000/api/mes-dia-chuvoso', {
+          tipo_dados: 'todos_os_dados',
+          intervalo_tempo: intervaloTempo,
+          ano_inicial: startYear ? parseInt(startYear, 10) : null,
+          ano_final: endYear ? parseInt(endYear, 10) : null,
+          mes: month ? parseInt(month, 10) : null, // Converte para inteiro
+        });
+      } else {
+        response = await axios.post('http://127.0.0.1:5000/api/mes-dia-chuvoso', {
+          tipo_dados: 'todos_os_dados',
+          intervalo_tempo: intervaloTempo,
+          data_inicial: startDate,
+          data_final: endDate,
+        });
+      }
+      
+      onSelectData(response.data);
+      setData(response.data); // Atualiza o estado com os dados recebidos
     } catch (error) {
       console.error('Erro ao processar a opção:', error);
+      alert('Erro ao processar a opção. Verifique a conexão com o servidor.');
+    } finally {
+      setLoading(false);
     }
+
   };
 
 
@@ -112,12 +181,18 @@ function ApiTempChuva({ onSelectData, isDark }) {
       borderRadius: '20px',
       backgroundColor: selectedTheme.text_secondary+20,
       boxShadow: selectedTheme.shadow
-      }}
-  >
-    <Typography variant="h6" component="h4" sx={{ color: selectedTheme.text_primary }}>Encontre os Dias ou Meses Mais Chuvosos</Typography>
-    <Typography variant="h6" component="h4" sx={{ fontSize:'14px', color: selectedTheme.text_secondary}}>Escolha um Período para Visualizar a Chuva Mais Intensa.</Typography>
-    <Box>
-    <TextField
+  }}>
+    <Typography variant="h6" component="h4" sx={{ color: selectedTheme.text_primary }}>
+      Encontre os Dias ou Meses Mais Chuvosos
+    </Typography>
+    <Typography variant="h6" component="h4" sx={{ fontSize:'14px', color: selectedTheme.text_secondary}}>
+      Escolha um Período para Visualizar a Chuva Mais Intensa.
+    </Typography>
+
+    {/* Exibir campos diferentes com base na seleção do intervalo de tempo */}
+    {tempo === 'um_ano' && (
+      <Box>
+        <TextField
           type="text"
           id="data_inicial"
           label="Data Inicial" 
@@ -135,7 +210,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
                 borderRadius: '7px'
             }
           }}
-          sx={{marginLeft: '4px'}}
+          sx={{ marginLeft: '4px' }}
         />
         <TextField
           type="text" 
@@ -155,70 +230,76 @@ function ApiTempChuva({ onSelectData, isDark }) {
               borderRadius: '7px'
             }
           }}
-          sx={{marginLeft: '4px'}}
+          sx={{ marginLeft: '4px' }}
         />
+      </Box>
+    )}
 
-        {endDate - startDate > 1 && ( // Se o intervalo de anos for maior que 1, exibe o campo de entrada do mês
-                <TextField
-                  type="text" 
-                  id="mes"
-                  label="Mês"
-                  value={month}
-                  onChange={handleMonthChange}
-                  placeholder="MM"
-                  maxLength="2"
-                  InputLabelProps={{ 
-                    shrink: true,
-                    style: { 
-                      width: '50%',
-                      textAlign: 'center',
-                      color: selectedTheme.text_primary,
-                      backgroundColor: selectedTheme.bgLight,
-                      borderRadius: '7px'
-                    }
-                  }}
-                  sx={{marginLeft: '4px'}}
-                />
-              )}
-    </Box>
-    <FormControl sx={{ minWidth: 200 }} size="small">
-      <InputLabel id="demo-select-small-label" sx={{color: selectedTheme.text_primary}}>Opção</InputLabel>
-      <Select
-        labelId="demo-select-small-label"
-        id="controllable-states-demo"
-        value={option}
-        label="Opção" 
-        onChange={handleOptionChange}
-        variant="outlined"
-        fullWidth
-        sx={{
-          '& .MuiSelect-select': {
-            color: selectedTheme.text_primary, // Cor do texto selecionado
-          },
-        }}
-        MenuProps={{ 
-          PaperProps: {
-            sx: {
-              backgroundColor: selectedTheme.card_light,
+    {tempo === 'varios_anos' && (
+      <Box>
+        <TextField
+          type="text"
+          id="startYear"
+          label="Ano Inicial"
+          value={startYear}
+          onChange={handleStartYearChange}
+          placeholder="AAAA"
+          maxLength="4"
+          InputLabelProps={{
+            shrink: true,
+            style: { 
+              width: '50%',
+              textAlign: 'center',
               color: selectedTheme.text_primary,
-              borderRadius: '8px',
-              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-              padding: '8px',
-              fontFamily: 'Arial, sans-serif',
-            },
-          },
-          
-        }}
-      >
-        <MenuItem disabled value="">
-          <em>Selecione as opções desejadas</em>
-        </MenuItem>
-        <MenuItem value="1">Todos os dados</MenuItem>
-        <MenuItem value="2">Mês Mais Chuvoso</MenuItem>
-        <MenuItem value="3">Mês Menos Chuvoso</MenuItem>
-        <MenuItem value="4">Umidade e Velocidade do vento</MenuItem>
-      </Select>
-    </FormControl>
+              backgroundColor: selectedTheme.bgLight,
+              borderRadius: '7px'
+            }
+          }}
+          sx={{ marginLeft: '4px' }}
+        />
+        <TextField
+          type="text"
+          id="endYear"
+          label="Ano Final"
+          value={endYear}
+          onChange={handleEndYearChange}
+          placeholder="AAAA"
+          maxLength="4"
+          InputLabelProps={{
+            shrink: true,
+            style: { 
+              width: '50%',
+              textAlign: 'center',
+              color: selectedTheme.text_primary,
+              backgroundColor: selectedTheme.bgLight,
+              borderRadius: '7px'
+            }
+          }}
+          sx={{ marginLeft: '4px' }}
+        />
+        <TextField
+          type="text"
+          id="month"
+          label="Mês"
+          value={month}
+          onChange={handleMonthChange}
+          placeholder="MM"
+          maxLength="2"
+          InputLabelProps={{
+            shrink: true,
+            style: { 
+              width: '50%',
+              textAlign: 'center',
+              color: selectedTheme.text_primary,
+              backgroundColor: selectedTheme.bgLight,
+              borderRadius: '7px'
+            }
+          }}
+          sx={{ marginLeft: '4px' }}
+        />
+      </Box>
+    )}
+
     <FormControl sx={{ minWidth: 200 }} size="small">
       <InputLabel id="demo-select-tempo-label" sx={{color: selectedTheme.text_primary}}>Intervalo de Tempo</InputLabel>
       <Select
@@ -252,7 +333,54 @@ function ApiTempChuva({ onSelectData, isDark }) {
         <MenuItem value="varios_anos">Vários Anos</MenuItem>
       </Select>
     </FormControl>
-    <Button variant="contained" onClick={handleOptionSubmit}>Selecionar</Button>
+    <FormControl sx={{ minWidth: 200 }} size="small">
+      <InputLabel id="demo-select-small-label" sx={{color: selectedTheme.text_primary}}>Opção</InputLabel>
+      <Select
+        labelId="demo-select-small-label"
+        id="controllable-states-demo"
+        value={option}
+        label="Opção" 
+        onChange={handleOptionChange}
+        variant="outlined"
+        fullWidth
+        sx={{
+          '& .MuiSelect-select': { color: selectedTheme.text_primary },
+        }}
+        MenuProps={{ 
+          PaperProps: {
+            sx: {
+              backgroundColor: selectedTheme.card_light,
+              color: selectedTheme.text_primary,
+              borderRadius: '8px',
+              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+              padding: '8px',
+              fontFamily: 'Arial, sans-serif',
+            },
+          },
+          
+        }}
+      >
+        <MenuItem disabled value="">
+          <em>Selecione as opções desejadas</em>
+        </MenuItem>
+        <MenuItem value="1">Todos os dados</MenuItem>
+        <MenuItem value="2">Mês Mais Chuvoso</MenuItem>
+        <MenuItem value="3">Mês Menos Chuvoso</MenuItem>
+      </Select>
+    </FormControl>
+
+    <Button variant="contained" onClick={handleOptionSubmit}>
+      Selecionar
+    </Button>
+        {/* Seção para exibir os dados */}
+    {data && (
+      <Box sx={{ marginTop: '20px', textAlign: 'center', color: selectedTheme.text_primary }}>
+        <Typography variant="h6">Dados Retornados:</Typography>
+        <pre>{JSON.stringify(data, null, 2)}</pre> {/* Exibe os dados formatados */}
+      </Box>
+    )}
+
+    {loading && <CircularProgress color="secondary" size={24} />}
   </div>
   );
 } 
