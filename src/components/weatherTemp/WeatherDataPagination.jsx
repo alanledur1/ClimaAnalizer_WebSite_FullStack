@@ -32,8 +32,8 @@ const WeatherDataPagination = ({ weatherData, isDark }) => {
   isLargeScreen ? '15px' :
   '20px'; // Ajustar margem com base no tamanho da tela
 
-  const paddingSize = isSmallScreen ? '4px' :
-    isMediumScreen ? '12px' :
+  const paddingSize = isSmallScreen ? '2px' :
+    isMediumScreen ? '4px' :
     isLargeScreen ? '16px' :
     '16px'; // Ajustar padding com base no tamanho da tela
   const fontSize = isSmallScreen ? '10px' :
@@ -70,7 +70,7 @@ const WeatherDataPagination = ({ weatherData, isDark }) => {
         Dados Meteorológicos
       </Typography>
       {weatherData && weatherData.dados && weatherData.dados.length > 0 ? (
-        <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', flexDirection: 'column' }}>
+        <List sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', flexDirection: 'row' }}>
           {weatherData.dados.slice(startIndex, endIndex).map((data, index) =>  (
             <Box
               key={index}
@@ -86,14 +86,14 @@ const WeatherDataPagination = ({ weatherData, isDark }) => {
                 width: '32%',
                 color: selectedTheme.text_secondary,
                 transition: 'all 0.5s ease-in-out',
-                '@media (max-width: 600px)': {
+                '@media (max-width: 768px)': {
                   // Estilos específicos para telas de até 378px
                   padding: '0px', 
                   width: '49%',
                   fontSize: '12px', 
                   gap: '0px', 
                 },
-                '@media (max-width: 378px)': {
+                '@media (max-width: 400px)': {
                   // Estilos específicos para telas de até 378px
                   padding: '0px', 
                   width: '49%', 
