@@ -183,10 +183,12 @@ function ApiTempChuva({ onSelectData, isDark }) {
       boxShadow: selectedTheme.shadow
   }}>
     <Typography variant="h6" component="h4" sx={{ color: selectedTheme.text_primary }}>
-      Encontre os Dias ou Meses Mais Chuvosos
+      Encontre os Dias ou Meses mais e menos chuvosos
     </Typography>
     <Typography variant="h6" component="h4" sx={{ fontSize:'14px', color: selectedTheme.text_secondary}}>
-      Escolha um Período para Visualizar a Chuva Mais Intensa.
+      Para o periodo de 1 ano a data tem que ser ex.: 01/01/2003 - 31/12/2003.
+      <br/>
+      Para o periodo de varios anos apenas informe o ano inicial, final e mês.
     </Typography>
 
     {/* Exibir campos diferentes com base na seleção do intervalo de tempo */}

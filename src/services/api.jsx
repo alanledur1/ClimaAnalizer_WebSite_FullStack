@@ -85,7 +85,10 @@ function ApiTemp({ onSelectData, isDark }) {
   >
         
   
-    <Typography variant="h6" component="h4">Visualizar intervalo de dados em modo texto</Typography>
+    <Typography variant="h6" component="h4">Visualizar intervalo de dados em modo texto
+      <br></br>
+      Intervalo de data ex.: 01/02/2014 - 21/06/2016.
+    </Typography>
     <Box>
       <TextField
           type="text"
