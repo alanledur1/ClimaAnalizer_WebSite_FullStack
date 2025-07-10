@@ -4,6 +4,27 @@ import styled from 'styled-components';
 import WeatherDataPagination from '../weatherTemp/WeatherDataPagination.jsx';
 import { WeatherDataPaginationCard2 } from '../weatherTemp/WeatherDataPaginationCard-2.jsx';
 
+// --- Funções Auxiliares ---
+// Converte uma cor hexadecimal para um formato RGB (ex: "255, 255, 255")
+// para ser usado dentro de rgba()
+const hexToRgb = (hex) => {
+    let r = 0, g = 0, b = 0;
+    // 3 digits
+    if (hex.length === 4) {
+        r = "0x" + hex[1] + hex[1];
+        g = "0x" + hex[2] + hex[2];
+        b = "0x" + hex[3] + hex[3];
+    // 6 digits
+    } else if (hex.length === 7) {
+        r = "0x" + hex[1] + hex[2];
+        g = "0x" + hex[3] + hex[4];
+        b = "0x" + hex[5] + hex[6];
+    }
+    return `${+r}, ${+g}, ${+b}`;
+};
+
+
+// --- Componentes de Estilo ---
 
 const ObjectTitle = styled.div`
     display: flex;
@@ -154,7 +175,7 @@ const CardContent = styled.div`
 const ContainerResults = styled.div`
     display: flex;
     width: 100%;
-    background-color: ${({ theme }) => theme.card+80};
+    background-color: ${({ theme }) => theme.card}80;
     border-radius: 20px;
     margin-top: 32px;
 `;
@@ -162,7 +183,7 @@ const BoxContent = styled.div`
     width: 100%;
     height: auto;
     margin-top: 5px;
-    background-color: ${({ theme }) => `rgba(${theme.card}, 0.8)`}; 
+    background-color: ${({ theme }) => `rgba(${hexToRgb(theme.card)}, 0.8)`}; 
     border-radius: 20px;
     padding: 20px;
     cursor: pointer;
@@ -197,12 +218,12 @@ const BoxContent = styled.div`
 const Search = ({ isDark, darkTheme, lightTheme}) => {
     const [weatherDataFromApiTemp, setWeatherDataFromApiTemp] = useState(null);
     const [weatherDataFromApiTempChuva, setWeatherDataFromApiTempChuva] = useState(null);
-  
+ 
     const handleSelectDataApiTemp = (selectedData) => {
       setWeatherDataFromApiTemp(selectedData);
       setWeatherDataFromApiTempChuva(null); // Limpa os dados do segundo card
     };
-  
+ 
     const handleSelectDataApiTempChuva = (selectedData) => {
       setWeatherDataFromApiTempChuva(selectedData);
       setWeatherDataFromApiTemp(null); // Limpa os dados do primeiro card
