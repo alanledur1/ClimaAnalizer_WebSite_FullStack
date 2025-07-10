@@ -142,7 +142,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
 
       // Executa a requisição conforme o tipo de intervalo
       if (tempo === 'varios_anos') {
-        response = await axios.post('https://climaanaliyzerserver.rj.r.appspot.com/api/mes-dia-chuvoso', {
+        response = await axios.post('https://climaanalizerserver.rj.r.appspot.com/api/mes-dia-chuvoso', {
           tipo_dados: 'todos_os_dados',
           intervalo_tempo: intervaloTempo,
           ano_inicial: startYear ? parseInt(startYear, 10) : null,
@@ -150,7 +150,7 @@ function ApiTempChuva({ onSelectData, isDark }) {
           mes: month ? parseInt(month, 10) : null, // Converte para inteiro
         });
       } else {
-        response = await axios.post('https://climaanaliyzerserver.rj.r.appspot.com/api/mes-dia-chuvoso', {
+        response = await axios.post('https://climaanalizerserver.rj.r.appspot.com/api/mes-dia-chuvoso', {
           tipo_dados: 'todos_os_dados',
           intervalo_tempo: intervaloTempo,
           data_inicial: startDate,

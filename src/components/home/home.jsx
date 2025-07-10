@@ -118,7 +118,7 @@ const moveLetters = keyframes`
 const Letter = styled.span`
   display: inline-block;
   animation: ${moveLetters} 0.5s ease-in-out;
-  animation-delay: ${({ delay }) => delay};
+  animation-delay: ${({ $delay }) => $delay};
 `;
 
 // Componente Título com animação de letras
@@ -126,7 +126,7 @@ const Title = () => (
   <TitleWrapper translate="no"> {/* Adiciona o atributo translate="no" */}
     {"Bem-vindo ao ClimaAnalizer".split("").map((char, index) => (
       <React.Fragment key={index}>
-        <Letter delay={`${index * 0.1}s`}>
+        <Letter $delay={`${index * 0.1}s`}>
           {char}
         </Letter>
         {char === " " && <span>&nbsp;</span>} {/* Adiciona um espaço entre as palavras */}
