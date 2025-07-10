@@ -50,16 +50,16 @@ const DetailItem = styled.p`
 `;
 
 export const WeatherDetails = ({ data, theme }) => {
-
   return (
     <WeatherDetailsContainer theme={theme}>
-      <DetailItem theme={theme}><strong>Temperatura Máxima:</strong> {data.temp_max}</DetailItem>
-      <DetailItem theme={theme}><strong>Temperatura Mínima:</strong> {data.temp_min}</DetailItem>
-      <DetailItem theme={theme}><strong>Umidade:</strong> {data.umidade}</DetailItem>
-      <DetailItem theme={theme}><strong>Pressão:</strong> {data.pressao}</DetailItem>
-      <DetailItem theme={theme}><strong>Visibilidade:</strong> {data.visibilidade}</DetailItem>
-      <DetailItem theme={theme}><strong>Velocidade do Vento:</strong> {data.velocidade_vento}</DetailItem>
-      <DetailItem theme={theme}><strong>Direção do Vento:</strong> {data.direcao_vento}</DetailItem>
+      <DetailItem theme={theme}><strong>Temperatura Máxima:</strong> {data.main?.temp_max} °C</DetailItem>
+      <DetailItem theme={theme}><strong>Temperatura Mínima:</strong> {data.main?.temp_min} °C</DetailItem>
+      <DetailItem theme={theme}><strong>Umidade:</strong> {data.main?.humidity} %</DetailItem>
+      <DetailItem theme={theme}><strong>Pressão:</strong> {data.main?.pressure} hPa</DetailItem>
+      <DetailItem theme={theme}><strong>Visibilidade:</strong> {data.visibility} m</DetailItem>
+      <DetailItem theme={theme}><strong>Velocidade do Vento:</strong> {data.wind?.speed} m/s</DetailItem>
+      <DetailItem theme={theme}><strong>Direção do Vento:</strong> {data.wind?.deg}°</DetailItem>
     </WeatherDetailsContainer>
-  )
+  );
 }
+

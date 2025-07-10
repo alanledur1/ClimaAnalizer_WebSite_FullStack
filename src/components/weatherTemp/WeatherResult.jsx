@@ -26,7 +26,7 @@ const CardContainer = styled.div`
   position: relative;
   padding: 25px;  
   box-shadow: 0px 155px 62px rgba(0, 0, 0, 0.01), 0px 87px 52px rgba(0, 0, 0, 0.05), 0px 39px 39px rgba(0, 0, 0, 0.09), 0px 10px 21px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) => theme.card_light+90};
+  background-color: ${({ theme }) => theme.card_light + 90};
   border-radius: 23px;
   transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
   cursor: pointer;
@@ -105,7 +105,7 @@ const TempScale = styled.div`
         line-height: 134.49%;
         color: ${({ theme }) => theme.text_primary};
     }
-`; 
+`;
 const CardDetails = styled.div`
   width: 50%;
   height: 250px;
@@ -141,7 +141,8 @@ const WeatherResult = ({ data, isDark, theme }) => {
     if (!data) return null;
 
     // Construa a URL do ícone
-    const iconUrl = `https://openweathermap.org/img/wn/${data.icone}.png`;
+    const iconCode = data.weather?.[0]?.icon;
+    const iconUrl = iconCode ? `https://openweathermap.org/img/wn/${iconCode}@2x.png` : '';
 
     // Obtendo a data e hora atuais
     const now = new Date();
@@ -152,22 +153,27 @@ const WeatherResult = ({ data, isDark, theme }) => {
         <ResultContainer theme={theme}>
             <CardContainer theme={theme}>
                 <CardHeader theme={theme}>
-                    <span>{data.cidade}, {data.pais}</span>
+                    <span>{data.name}, {data.sys?.country}</span>
                     <br />
                     <span> {formattedDate} <br /> {formattedTime}</span>
                 </CardHeader>
+
                 <Temp theme={theme}>
-                    {data.temp_atual}
+                    {data.main?.temp?.toFixed(1)}°C
                 </Temp>
+
                 <TempScale theme={theme}>
-                    <span>{data.descricao}</span> 
+                    <span>{data.weather?.[0]?.description}</span>
                 </TempScale>
-                <CardDetails>   
-                    <img src={iconUrl} alt={data.descricao} style={{ width: '200px', height: '200px' }} />
+
+                <CardDetails>
+                    <img
+                        src={iconUrl}
+                        alt={data.weather?.[0]?.descricao || "Ícone do clima"}
+                        style={{ width: '200px', height: '200px' }} />
                 </CardDetails>
+
             </CardContainer>
-
-
         </ResultContainer>
     );
 }
