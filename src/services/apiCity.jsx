@@ -64,7 +64,7 @@ function ApiResultClima({ onDataFetch}) {
         setError(null);
 
         try {
-            const response = await axios.get(`https://climaanalizerserver.rj.r.appspot.com/api/clima/clima-cidade`, {
+            const response = await axios.get(`https://climaanalizerserver.rj.r.appspot.com/api/clima-cidade`, {
                 params: { cidade: city }
             });
             setData(response.data);
