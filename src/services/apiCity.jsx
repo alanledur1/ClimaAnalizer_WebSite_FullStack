@@ -64,7 +64,7 @@ function ApiResultClima({ onDataFetch}) {
         setError(null);
 
         try {
-            const response = await axios.get(`https://api-climaanalizer.onrender.com/clima-cidade`, {
+            const response = await axios.get(`https://api-climaanalizer.onrender.com/api/clima-cidade`, {
                 params: { cidade: city }
             });
             setData(response.data);
